@@ -4,8 +4,8 @@
   >
     <div class="w-0 flex-1 flex">
       <a
-        href="#"
         class="-mt-px border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm leading-5 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-400 transition ease-in-out duration-150"
+        @click="changePage(currentPage > 0 ? currentPage - 1 : currentPage)"
       >
         <svg
           class="mr-3 h-5 w-5 text-gray-400"
@@ -22,52 +22,32 @@
       </a>
     </div>
     <div class="hidden md:flex">
-      <a
-        href="#"
-        class="-mt-px border-t-2 border-transparent pt-4 px-4 inline-flex items-center text-sm leading-5 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-400 transition ease-in-out duration-150"
+      <template 
+          v-for="page in pageButtons"
       >
-        1
-      </a>
-      <a
-        href="#"
-        class="-mt-px border-t-2 border-blue-500 pt-4 px-4 inline-flex items-center text-sm leading-5 font-medium text-blue-600 focus:outline-none focus:text-blue-800 focus:border-blue-700 transition ease-in-out duration-150"
-      >
-        2
-      </a>
-      <a
-        href="#"
-        class="-mt-px border-t-2 border-transparent pt-4 px-4 inline-flex items-center text-sm leading-5 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-400 transition ease-in-out duration-150"
-      >
-        3
-      </a>
       <span
-        class="-mt-px border-t-2 border-transparent pt-4 px-4 inline-flex items-center text-sm leading-5 font-medium text-gray-500"
-      >
-        ...
-      </span>
-      <a
-        href="#"
-        class="-mt-px border-t-2 border-transparent pt-4 px-4 inline-flex items-center text-sm leading-5 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-400 transition ease-in-out duration-150"
-      >
-        8
-      </a>
-      <a
-        href="#"
-        class="-mt-px border-t-2 border-transparent pt-4 px-4 inline-flex items-center text-sm leading-5 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-400 transition ease-in-out duration-150"
-      >
-        9
-      </a>
-      <a
-        href="#"
-        class="-mt-px border-t-2 border-transparent pt-4 px-4 inline-flex items-center text-sm leading-5 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-400 transition ease-in-out duration-150"
-      >
-        10
-      </a>
+          v-if="page === 'less' || page === 'more'"
+          :key="page"
+          class="page-content inline-flex"
+        >
+          ...
+        </span>
+        <span
+            v-else
+            :key="page"
+            class="page-content inline-flex"
+            :class="{'active': page - 1 === currentPage}"
+            :tabindex="page"
+            @click="changePage(page - 1)"
+          >
+            {{ page }}
+          </span>
+      </template>
     </div>
     <div class="w-0 flex-1 flex justify-end">
       <a
-        href="#"
         class="-mt-px border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm leading-5 font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-400 transition ease-in-out duration-150"
+        @click="changePage(currentPage < pageCount - 1 ? currentPage + 1 : currentPage)"
       >
         Next
         <svg
@@ -86,12 +66,78 @@
   </div>
 </template>
 
-<style>
+<script>
 export default {
   name: 'Pagination',
-  data: function() {
+  props: {
+    pageCount: {
+      type: Number,
+      default: 0
+    },
+    currentPage: {
+      type: Number,
+      default: 0
+    },
+    pageLimit: {
+      type: Number,
+      default: 0
+    }
+  },
+  computed: {
+    pageButtons() {
+      const from = Math.max(
+        Math.min(
+          this.currentPage - Math.round(this.pageLimit/2) + 1,
+          this.pageCount + 1 - this.pageLimit
+        ), 1
+      )
+      const to = Math.min(from + this.pageLimit - 1, this.pageCount)
+      
+      return this.range(from, to + 1).map(page => {
+        if (page === from && from > 1) {
+          return 'less'
+        }
+        
+        if (page === to && to < this.pageCount) {
+          return 'more'
+        }
+
+        return page
+      })
+    },
+  },
+  data() {
     return {
-      isopen: false;
+    }
+  },
+  methods: {
+    changePage(page) {
+      this.$emit('changePage', page)
+    },
+    range(start, count) {
+      return Array.from(Array(count - start).keys())
+                  .map(val => val + start)
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+.page-content {
+  @apply cursor-pointer -mt-px border-t-2 border-transparent pt-4 px-4 items-center text-sm leading-5 font-medium text-gray-500 transition ease-in-out duration-150;
+
+  &:hover {
+    @apply text-gray-700 border-gray-300;
+  }
+
+  &:focus {
+    @apply  outline-none text-gray-700 border-gray-400;
+  }
+
+  &.active {
+    @apply border-blue-500 text-blue-600;
+
+    &:focus {
+      @apply text-blue-800 border-blue-700;
     }
   }
 }

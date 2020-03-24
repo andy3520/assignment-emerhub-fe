@@ -3,25 +3,24 @@
     <ul class="mb-8">
       <li
         class="border-t border-gray-200"
-        v-for="item in companyList"
+        v-for="item in paginateCompnany"
         v-bind:companies="item"
         v-bind:key="item.id"
       >
         <a
-          href="#"
           class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
         >
           <div class="px-4 py-4 sm:px-6">
             <div class="flex items-center justify-between">
               <div>
-                <router-link :to="'/co/' + item.country+'/'+item.name">
+                <router-link :to="`/co/${countryCode(item.country)}_${item.id}_${item.systemId}?name=${item.name}`">
                 <h3
                   class="text-sm leading-5 font-medium text-blue-600 truncate"
                 >
                   {{ item.name }}
                 </h3></router-link>
                 <div class="mt-2 sm:flex sm:justify-between">
-                  <div class="sm:flex">
+                  <div class="flex flex-0 flex-wrap info-wrapper">
                     <div
                       class="mr-6 flex items-center text-sm leading-5 text-gray-500"
                     >
@@ -37,7 +36,7 @@
                       {{ item.country }}
                     </div>
                     <div
-                      class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mt-0"
+                      class="mt-2 mr-6 flex items-center text-sm leading-5 text-gray-500 sm:mt-0"
                     >
                       <svg
                         class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
@@ -50,6 +49,30 @@
                       </svg>
                       {{ item.city }}
                     </div>
+                    <div
+                      class="mt-2 mr-6 flex items-center text-sm leading-5 text-gray-500 sm:mt-0"
+                    >
+                      <svg
+                        class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M17.56 17.66a8 8 0 0 1-11.32 0L1.3 12.7a1 1 0 0 1 0-1.42l4.95-4.95a8 8 0 0 1 11.32 0l4.95 4.95a1 1 0 0 1 0 1.42l-4.95 4.95zm-9.9-1.42a6 6 0 0 0 8.48 0L20.38 12l-4.24-4.24a6 6 0 0 0-8.48 0L3.4 12l4.25 4.24zM11.9 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                      </svg>
+                      {{ item.view }}
+                    </div>
+                    <div
+                      class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mt-0"
+                    >
+                      <svg
+                        class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M2.59 13.41A1.98 1.98 0 0 1 2 12V7a5 5 0 0 1 5-5h4.99c.53 0 1.04.2 1.42.59l8 8a2 2 0 0 1 0 2.82l-8 8a2 2 0 0 1-2.82 0l-8-8zM20 12l-8-8H7a3 3 0 0 0-3 3v5l8 8 8-8zM7 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                      </svg>
+                      {{ item.brand }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -57,10 +80,9 @@
                 <span class="inline-flex rounded-md shadow-sm">
                   <button
                     @click="reportAdded(item)"
-                    v-on:click.prevent="validate"
                     type="button"
                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700"
-                    v-bind:class="[item.added ? 'bg-green-600 hover:bg-green-500 transition ease-in-out duration-150' : 'bg-blue-600 hover:bg-blue-500']"
+                    v-bind:class="[isAdded(item.id) ? 'bg-green-600 hover:bg-green-500 transition ease-in-out duration-150' : 'bg-blue-600 hover:bg-blue-500']"
                   >
                     <svg
                       class="-ml-1 mr-2 h-4 w-4 hiddden md:block"
@@ -68,10 +90,10 @@
                       viewBox="0 0 24 24"
                       
                     >
-                      <path v-show="!item.added" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />
-                      <path v-show="item.added" d="M19 0h-14c-2.762 0-5 2.239-5 5v14c0 2.761 2.238 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-8.959 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591z"/>
+                      <path v-show="!isAdded(item.id)" d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />
+                      <path v-show="isAdded(item.id)" d="M19 0h-14c-2.762 0-5 2.239-5 5v14c0 2.761 2.238 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-8.959 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591z"/>
                     </svg>
-                    Add<span v-show="item.added">ed</span>
+                    Add<span v-show="isAdded(item.id)">ed</span>
                     <span class="hidden md:inline-block md:ml-1">to cart</span>
                   </button>
                 </span>
@@ -81,7 +103,14 @@
         </a>
       </li>
     </ul>
-    <Pagination class="pb-6 px-4 sm:px-6" />
+    <Pagination 
+      v-if="totalPage > 1" 
+      :page-count="totalPage" 
+      :current-page="currentPage"
+      :page-limit="6"
+      @changePage="changePage"
+      class="pb-6 px-4 sm:px-6" 
+    />
     <NotificationAddCart v-show="itemsInCart" :value="itemsInCart" />
   </div>
 </template>
@@ -89,69 +118,75 @@
 <script>
 import NotificationAddCart from "./NotificationAddCart.vue";
 import Pagination from "./Pagination.vue";
+import Storage from '../services/storage';
+const PAGE_SIZE = 6;
+const Cache = new Storage();
+const CART = 'CART';
 
 export default {
   name: "ListResults",
-  props: ["companies", "itemCount"],
-  data: function() {
+  props: ["companies", "itemCount", "companyList"],
+  watch: {
+    companyList() {
+      this.currentPage = 0;
+    }
+  },
+  computed: {
+    itemsInCart() {
+      return this.localCart.length;
+    },
+    totalItem() {
+      if (!this.companyList || !this.companyList.length) return 0;
+
+      return this.companyList.length;
+    },
+    totalPage() {
+      if(!this.totalItem) return 0;
+      return Math.ceil(this.totalItem / this.pageSize)
+    },
+    paginateCompnany() {
+      if(!this.totalItem) return this.companyList;
+      const start = this.currentPage * this.pageSize;
+      const end = start + this.pageSize;
+
+      return this.companyList.slice(start, end)
+    }
+  },
+  data () {
     return {
-      isOpen: true,
-      itemsInCart: 0,
-      companyList: [
-        {
-          id: 0,
-          name: "PT. Alpha Prima Gamma",
-          country: "Indonesia",
-          city: "Jakarta",
-          added: false,
-        },
-        {
-          id: 1,
-          name: "PT. Pho Bros",
-          country: "Vietnam",
-          city: "Ho Chi Minh City",
-          added: false,
-
-        },
-        {
-          id: 2,
-          name: "PT. Mabuhay",
-          country: "The Philippines",
-          city: "Manila",
-          added: false,
-
-        },
-        {
-          id: 3,
-          name: "PT. Another Company Name",
-          country: "Indonesia",
-          city: "Jakarta",
-          added: false,
-
-        },
-        {
-          id: 4,
-          name: "PT. Some More Pho",
-          country: "Vietnam",
-          city: "Ho Chi Minh City",
-          added: false,
-
-        },
-        {
-          id: 5,
-          name: "PT. Mabuhay Two",
-          country: "The Philippines",
-          city: "Manila",
-          added: false,
-        },
-      ],
+      localCart: [],
+      currentPage: 0,
+      pageSize: PAGE_SIZE
     };
   },
+  mounted() {
+    const saveCart = Cache.getItem(CART)
+    
+    if(saveCart) {
+      this.localCart = JSON.parse(saveCart)
+    }
+  },
   methods: {
-    reportAdded: function(companyName) {
-      companyName.added = !companyName.added;
-      companyName.added ? this.itemsInCart++ : this.itemsInCart--;
+    reportAdded(company) {
+      const companyIndex = this.localCart.indexOf(company.id)
+      if (companyIndex > - 1) {
+        this.localCart.splice(companyIndex, 1)
+      } else {
+        this.localCart.push(company.id)
+      }
+
+      Cache.setItem(CART, JSON.stringify(this.localCart))
     },
+    changePage(page) {
+      this.currentPage = page;
+    },
+    isAdded(companyId) {
+      return this.localCart.includes(companyId)
+    },
+    countryCode(country) {
+      if (!country) return ''
+      return country.toLowerCase().slice(0,1)
+    }
   },
   components: {
     NotificationAddCart,
@@ -159,3 +194,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.info-wrapper {
+  max-width: 22.5rem;
+}
+</style>

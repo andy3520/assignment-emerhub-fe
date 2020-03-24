@@ -193,6 +193,7 @@ export default {
   name: "NavBar",
   data: function() {
     return {
+      open: false,
       isOpen: false,
     };
   },
