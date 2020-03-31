@@ -14,7 +14,7 @@ export default class Storage {
       return false;
     }
   }
-    
+
 
   getItem = item => {
     if (!this.isBrowserSupport) return false;
@@ -40,7 +40,7 @@ export default class Storage {
 
   setItem = (item, value, ttl) => {
     if (!this.isBrowserSupport) return false;
-    const currentTTL = ttl ? ttl : this.ttl; 
+    const currentTTL = ttl ? ttl : this.ttl;
 
     try {
       if (currentTTL === 0) {
@@ -59,7 +59,7 @@ export default class Storage {
       if (exception.name === 'QuotaExceededError') {
         this.clearStorageWhenFull()
         console.log('Clear local storage')
-        return 
+        return
       }
       console.error(exception);
     }
