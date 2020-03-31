@@ -116,6 +116,7 @@ export default {
     }
   },
   created: async function() {
+    localStorage.clear(); // just for test
     await this.displayTopCompanies();
 
     this.$on("fuzzySearchCompany", result => {

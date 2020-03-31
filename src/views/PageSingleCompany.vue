@@ -71,9 +71,7 @@
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <span
-                      class="ml-2 flex-1 w-0 truncate"
-                    >Current shareholders and Board of Directors</span>
+                    <span class="ml-2 flex-1 w-0 truncate">Standard Report</span>
                   </div>
                   <div class="ml-4 flex-shrink-0">
                     <a
