@@ -2,12 +2,12 @@ import Storage from './storage';
 
 const CACHE_MAX_AGE = 48 * 60; // 2 day
 const TOP_COMPANY_CACHE_KEY = "TOP_COMPANY"; // Cache key
-const BASE_URL = process.env.NODE_ENV !== "production" ? "/cfs/handleCompanies" : 'https://asia-northeast1-inc-registry.cloudfunctions.net/cfs/handleCompanies';
+const BASE_URL = process.env.NODE_ENV !== "production" ? "/cfs" : process.env.URL_ENDPOINT;
 const DEFAULT_PAGE_SIZE = 6
 
 const Cache = new Storage(CACHE_MAX_AGE);
 
-const getCachedData = async (cacheKey, path) => {
+const getCachedData = async (cacheKey, path, options = {}) => {
   const cachedData = Cache.getItem(cacheKey);
 
   if (cachedData) {
@@ -15,8 +15,9 @@ const getCachedData = async (cacheKey, path) => {
   }
 
   try {
-    const data = await fetch(`${BASE_URL}/${path}`)
+    const data = await fetch(`${BASE_URL}/${path}`, options)
     const { result } = await data.json()
+    console.log("getCachedData -> result", result)
 
     Cache.setItem(
       cacheKey,
@@ -39,9 +40,23 @@ const getCompanyByQuery = async (query) => {
   return await getCachedData(query, `incCompanies?search=${query}`)
 }
 
+const getCompanyDetail = async (systemId) => {
+  const KEY = `DETAIL_${systemId}`
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ systemId: systemId })
+  }
+
+  return await getCachedData(KEY, 'incCompaniesDeatail', options)
+}
+
 export {
   getTopCompanies,
   getCompanyByQuery,
   getCachedData,
+  getCompanyDetail,
   DEFAULT_PAGE_SIZE
 }

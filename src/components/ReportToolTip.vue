@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="max-w-sm p-6">
     <h3
       class="text-xl font-bold leading-7 text-gray-900 sm:text-2xl sm:leading-9 sm:truncate"
     >Information included in report:</h3>

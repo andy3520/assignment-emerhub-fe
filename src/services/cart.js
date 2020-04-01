@@ -12,7 +12,11 @@ const getCart = () => {
   return []
 }
 
-const updateCart = (item) => {
+const setCart = (cart) => {
+  Cache.setItem(CART_CACHE_KEY, cart)
+}
+
+const toggleItem = (item) => {
   let saveCart = Cache.getItem(CART_CACHE_KEY)
   if (!item || !item.id) return saveCart;
 
@@ -45,6 +49,7 @@ const indexInCart = (id) => {
 
 export {
   getCart,
-  updateCart,
+  toggleItem,
+  setCart,
   indexInCart
 }

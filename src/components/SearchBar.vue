@@ -2,7 +2,7 @@
   <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
     <h3 class="text-lg leading-6 font-medium text-gray-900">Find a company</h3>
     <div class="mt-2 text-sm leading-5 text-gray-500">
-      <form class="mt-3">
+      <div class="mt-3">
         <div class="flex mt-2">
           <div class="mr-4">Show results from:</div>
           <div v-for="country in countries" :key="country.code" class="mr-4">
@@ -35,7 +35,7 @@
           >Find</button>
         </div>
         <div v-if="error" class="my-4 text-lg text-center text-red-500">{{ error }}</div>
-      </form>
+      </div>
       <div v-if="loading" class="loading flex justify-center items-center">
         <img class="w-10 h-10" src="@/assets/img/rounded-blocks.gif" alt="loading" />
       </div>
@@ -143,6 +143,7 @@ export default {
       try {
         this.loading = true;
         this.topCompanies = await getTopCompanies();
+        console.log("this.topCompanies", this.topCompanies);
         this.sortTopCompanies();
       } catch (error) {
         console.log(error);
@@ -236,6 +237,6 @@ export default {
 </script>
 <style scoped>
 .loading {
-  min-height: 34.375rem;
+  min-height: 35rem;
 }
 </style>

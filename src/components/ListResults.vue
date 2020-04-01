@@ -46,7 +46,7 @@
                       {{ company.city }}
                     </div>
                     <div
-                      v-if="company.viewCount"
+                      v-if="company.viewCount + ''"
                       class="mt-2 mr-6 flex items-center text-sm leading-5 text-gray-500 sm:mt-0"
                     >
                       <svg
@@ -126,7 +126,7 @@
 <script>
 import { DEFAULT_PAGE_SIZE } from "@/services/company";
 import { COUNTRIES } from "@/assets/value/country";
-import { getCart, updateCart, indexInCart } from "@/services/cart";
+import { getCart, toggleItem, indexInCart } from "@/services/cart";
 import NotificationAddCart from "./NotificationAddCart.vue";
 import Pagination from "./Pagination.vue";
 
@@ -186,7 +186,13 @@ export default {
           path: this.companyLink(company)
         });
       }
-      this.localCart = updateCart(company);
+
+      const { id, name } = company;
+      this.localCart = toggleItem({
+        id,
+        name,
+        options: ["standard"]
+      });
     },
     isAdded(id) {
       return indexInCart(id) > -1;
@@ -195,15 +201,14 @@ export default {
       const { text } = this.countries.find(country => country.code === code);
       return text;
     },
-    brandName(brand) {
-      return brand.replace(/brand-/, "");
+    brandName(brandName) {
+      return brandName.replace(/brand-/, "");
     },
     companyLink(company) {
       const { countryCode, id, systemId } = company;
       const letterCode = countryCode.toLowerCase().slice(0, 1);
       const systemIdOpts = systemId ? `_${systemId}` : "";
-      const encodeItem = encodeURIComponent(JSON.stringify(company));
-      return `/product/${letterCode}_${id}${systemIdOpts}?company=${encodeItem}`;
+      return `/product/${letterCode}_${id}${systemIdOpts}`;
     },
     changePage(page) {
       this.currentPage = page;

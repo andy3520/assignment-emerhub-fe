@@ -1,10 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Home from '@/views/Home';
-import Login from '@/views/PageLogin'
-import Checkout from '@/views/PageCheckout'
-import PageSingleCompany from '@/views/PageSingleCompany';
+const MainContainer = () => import('@/container/MainContainer');
 
 Vue.use(Router)
 
@@ -16,9 +13,32 @@ export default new Router({
 
 function configRoutes() {
   return [
-    { path: '/', component: Home },
-    { path: '/product/:countryCode_id_systemId', component: PageSingleCompany },
-    { path: '/login', component: Login },
-    { path: '/checkout', component: Checkout },
+    {
+      path: '/',
+      name: "Index",
+      component: MainContainer,
+      children: [
+        {
+          path: '/',
+          name: 'Home',
+          component: () => import('@/views/Home')
+        },
+        {
+          path: '/product/:comboId',
+          name: 'ComapnyDetail',
+          component: () => import('@/views/PageSingleCompany')
+        },
+        {
+          path: '/login',
+          name: 'Login',
+          component: () => import('@/views/PageLogin'),
+        },
+        {
+          path: '/checkout',
+          name: 'Checkout',
+          component: () => import('@/views/PageCheckout'),
+        },
+      ]
+    },
   ]
 } 
