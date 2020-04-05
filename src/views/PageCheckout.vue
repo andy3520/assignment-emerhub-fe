@@ -267,28 +267,29 @@ export default {
 
       const isUserValid = await this.$refs.billingForm.validate();
 
+      console.log("placeOrder -> isUserValid", isUserValid);
       if (!isUserValid) {
         return;
       }
-      // const cardResult = await this.stripe.confirmCardPayment(
-      //   paymentIntent.client_secret,
-      //   {
-      //     payment_method: {
-      //       card: this.card,
-      //       billing_details: {
-      //         name: this.user.name,
-      //         email: this.user.email,
-      //         address: {
-      //           country: this.user.country,
-      //           line1: this.user.address,
-      //           postal_code: this.card.address_zip
-      //         }
-      //       }
-      //     }
-      //   }
-      // );
-      // console.log(cardResult);
-      // console.log(cardResult.token);
+      const confirmCardPayment = await this.stripe.confirmCardPayment(
+        paymentIntent.client_secret,
+        {
+          payment_method: {
+            card: this.card,
+            billing_details: {
+              name: this.user.name,
+              email: this.user.email,
+              address: {
+                country: this.user.country,
+                line1: this.user.address,
+                postal_code: this.card.address_zip
+              }
+            }
+          }
+        }
+      );
+
+      alert(confirmCardPayment.paymentIntent.status);
     }
   }
 };
