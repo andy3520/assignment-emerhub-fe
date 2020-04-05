@@ -2,7 +2,7 @@ import Storage from './storage';
 
 const CACHE_MAX_AGE = 48 * 60; // 2 day
 const TOP_COMPANY_CACHE_KEY = "TOP_COMPANY"; // Cache key
-const BASE_URL = process.env.NODE_ENV !== "production" ? "/cfs" : process.env.URL_ENDPOINT;
+const BASE_URL = process.env.NODE_ENV !== "production" ? "/cfs" : 'https://asia-northeast1-emerhub-registry.cloudfunctions.net/handleRegistry';
 const DEFAULT_PAGE_SIZE = 6
 
 const Cache = new Storage(CACHE_MAX_AGE);
