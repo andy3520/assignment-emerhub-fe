@@ -36,9 +36,9 @@
             <div class="sm:col-span-6">
               <form-group
                 input-class="mt-1"
+                :optional="true"
                 v-model="user.address"
                 placeholder="Address"
-                rules="min:3|max:500"
               >Address</form-group>
             </div>
           </div>
@@ -82,10 +82,10 @@
               :to="{name: 'Home'}"
             >Find a company</router-link>
           </li>
-          <li v-for="comp in localCart" :key="comp.id" class="pt-4 last:pb-4">
+          <li v-for="comp in localCart" :key="comp.systemId" class="pt-4 last:pb-4">
             <div
               class="block focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
-              :class="{ 'opacity-50': !isInPayList(comp.id) }"
+              :class="{ 'opacity-50': !isInPayList(comp.systemId) }"
             >
               <div class="px-4 flex items-center sm:px-6">
                 <div class="w-full flex flex-col items-stretch justify-center">
@@ -95,7 +95,7 @@
                         type="checkbox"
                         class="mr-1 opacity-100"
                         v-model="payList"
-                        :value="comp.id"
+                        :value="comp.systemId"
                       />
                       {{ comp.name }}
                     </label>
@@ -118,7 +118,7 @@
                               :id="opt.value"
                               :value="opt.value"
                               v-model="comp.options"
-                              :disabled="opt.standard || !isInPayList(comp.id)"
+                              :disabled="opt.standard || !isInPayList(comp.systemId)"
                             />
                             <span class="ml-2">{{ opt.text }}</span>
                             <div class="ml-auto block md:hidden">${{ opt.price }}</div>
@@ -154,6 +154,7 @@ import { getCart, setCart } from "@/services/cart";
 import { REPORT_TYPES } from "@/assets/value/report";
 import { COUNTRY_DICTIONARY } from "@/assets/value/country";
 import { loadStripe } from "@stripe/stripe-js";
+import { createIntent } from "@/services/checkout";
 
 const priceMap = Object.fromEntries(
   REPORT_TYPES.map(option => [option.value, option.price])
@@ -207,7 +208,7 @@ export default {
       if (!this.payList || !this.payList.length) return 0;
       let total = 0;
       this.localCart
-        .filter(comp => this.payList.includes(comp.id))
+        .filter(comp => this.payList.includes(comp.systemId))
         .forEach(comp => {
           comp.options.forEach(opt => {
             total += priceMap[opt];
@@ -215,6 +216,9 @@ export default {
         });
 
       return total;
+    },
+    amount() {
+      return this.totalOrder * 100;
     }
   },
   filters: {
@@ -226,7 +230,7 @@ export default {
   async mounted() {
     await this.createStripeCard();
     this.localCart = getCart();
-    this.payList = this.localCart.map(c => c.id);
+    this.payList = this.localCart.map(c => c.systemId);
   },
   methods: {
     updateName(val) {
@@ -235,8 +239,8 @@ export default {
     updateCart() {
       setCart(this.localCart);
     },
-    isInPayList(id) {
-      return this.payList.includes(id);
+    isInPayList(systemId) {
+      return this.payList.includes(systemId);
     },
     async createStripeCard() {
       this.stripe = await loadStripe(STRIPE_PUBLIC_KEY);
@@ -254,19 +258,37 @@ export default {
       });
     },
     async placeOrder() {
-      const isUserValid = await this.$refs.billingForm.validate();
-      const cardResult = await this.stripe.createToken(this.card);
+      const order = this.payList.map(systemId => {
+        return this.localCart.find(c => c.systemId === systemId);
+      });
 
-      if (cardResult.error) {
-        this.cardErrors = cardResult.error.message;
-        return;
-      }
+      const paymentIntent = await createIntent(this.user, this.amount, order);
+      console.log("placeOrder -> paymentIntent", paymentIntent);
+
+      const isUserValid = await this.$refs.billingForm.validate();
 
       if (!isUserValid) {
         return;
       }
-
-      console.log(cardResult.token);
+      // const cardResult = await this.stripe.confirmCardPayment(
+      //   paymentIntent.client_secret,
+      //   {
+      //     payment_method: {
+      //       card: this.card,
+      //       billing_details: {
+      //         name: this.user.name,
+      //         email: this.user.email,
+      //         address: {
+      //           country: this.user.country,
+      //           line1: this.user.address,
+      //           postal_code: this.card.address_zip
+      //         }
+      //       }
+      //     }
+      //   }
+      // );
+      // console.log(cardResult);
+      // console.log(cardResult.token);
     }
   }
 };

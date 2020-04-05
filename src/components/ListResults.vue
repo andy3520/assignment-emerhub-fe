@@ -1,7 +1,11 @@
 <template>
   <div class="bg-white shadow overflow-hidden sm:rounded-md">
     <ul class="mb-8">
-      <li class="border-t border-gray-200" v-for="company in paginatedCompnanies" :key="company.id">
+      <li
+        class="border-t border-gray-200"
+        v-for="company in paginatedCompnanies"
+        :key="company.systemId"
+      >
         <a
           class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
         >
@@ -84,7 +88,7 @@
                     @click="toggleCart(company)"
                     type="button"
                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700"
-                    v-bind:class="[isAdded(company.id) ? 'bg-green-600 hover:bg-green-500 transition ease-in-out duration-150' : 'bg-blue-600 hover:bg-blue-500']"
+                    v-bind:class="[isAdded(company.systemId) ? 'bg-green-600 hover:bg-green-500 transition ease-in-out duration-150' : 'bg-blue-600 hover:bg-blue-500']"
                   >
                     <svg
                       class="-ml-1 mr-2 h-4 w-4 hiddden md:block"
@@ -92,16 +96,16 @@
                       viewBox="0 0 24 24"
                     >
                       <path
-                        v-show="!isAdded(company.id)"
+                        v-show="!isAdded(company.systemId)"
                         d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"
                       />
                       <path
-                        v-show="isAdded(company.id)"
+                        v-show="isAdded(company.systemId)"
                         d="M19 0h-14c-2.762 0-5 2.239-5 5v14c0 2.761 2.238 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-8.959 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591z"
                       />
                     </svg>
                     Add
-                    <span v-show="isAdded(company.id)">ed</span>
+                    <span v-show="isAdded(company.systemId)">ed</span>
                     <span class="hidden md:inline-block md:ml-1">to cart</span>
                   </button>
                 </span>
@@ -181,21 +185,21 @@ export default {
   },
   methods: {
     toggleCart(company) {
-      if (indexInCart(company.id) === -1) {
+      if (indexInCart(company.systemId) === -1) {
         this.$router.push({
           path: this.companyLink(company)
         });
       }
 
-      const { id, name } = company;
+      const { systemId, name } = company;
       this.localCart = toggleItem({
-        id,
+        systemId,
         name,
         options: ["standard"]
       });
     },
-    isAdded(id) {
-      return indexInCart(id) > -1;
+    isAdded(systemId) {
+      return indexInCart(systemId) > -1;
     },
     countryName(code) {
       const { text } = this.countries.find(country => country.code === code);

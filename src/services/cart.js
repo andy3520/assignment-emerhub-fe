@@ -18,7 +18,7 @@ const setCart = (cart) => {
 
 const toggleItem = (item) => {
   let saveCart = Cache.getItem(CART_CACHE_KEY)
-  if (!item || !item.id) return saveCart;
+  if (!item || !item.systemId) return saveCart;
 
   if (!saveCart || !saveCart.length) {
     saveCart = [{ ...item }]
@@ -26,7 +26,7 @@ const toggleItem = (item) => {
     return saveCart;
   }
 
-  const itemIndexInCart = indexInCart(item.id)
+  const itemIndexInCart = indexInCart(item.systemId)
   if (itemIndexInCart > - 1) {
     saveCart.splice(itemIndexInCart, 1);
   } else {
@@ -37,14 +37,14 @@ const toggleItem = (item) => {
   return saveCart;
 }
 
-const indexInCart = (id) => {
-  if (!id) return -1;
+const indexInCart = (systemId) => {
+  if (!systemId) return -1;
   const saveCart = Cache.getItem(CART_CACHE_KEY)
   if (!saveCart || !saveCart.length) {
     return -1;
   }
 
-  return saveCart.map(comp => comp.id).indexOf(id)
+  return saveCart.map(comp => comp.systemId).indexOf(systemId)
 }
 
 export {

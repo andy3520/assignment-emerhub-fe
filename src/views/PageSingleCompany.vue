@@ -205,16 +205,16 @@ export default {
       this.selectedOptions.push(val);
     },
     updateCartAndCheckout() {
-      const { id, name } = this.company;
-      if (indexInCart(id) > -1) {
+      const { systemId, name } = this.company;
+      if (indexInCart(systemId) > -1) {
         this.localCart.map(company => {
-          if (company.id === id) {
+          if (company.systemId === systemId) {
             company.options = this.selectedOptions;
           }
         });
       } else {
         this.localCart.push({
-          id,
+          systemId,
           name,
           options: this.selectedOptions
         });
