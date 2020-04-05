@@ -263,11 +263,9 @@ export default {
       });
 
       const paymentIntent = await createIntent(this.user, this.amount, order);
-      console.log("placeOrder -> paymentIntent", paymentIntent);
 
       const isUserValid = await this.$refs.billingForm.validate();
 
-      console.log("placeOrder -> isUserValid", isUserValid);
       if (!isUserValid) {
         return;
       }
