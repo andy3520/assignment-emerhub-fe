@@ -17,7 +17,6 @@ const getCachedData = async (cacheKey, path, options = {}) => {
   try {
     const data = await fetch(`${BASE_URL}/${path}`, options)
     const { result } = await data.json()
-    console.log("getCachedData -> result", result)
 
     Cache.setItem(
       cacheKey,

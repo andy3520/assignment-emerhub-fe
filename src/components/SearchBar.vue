@@ -3,7 +3,7 @@
     <h3 class="text-lg leading-6 font-medium text-gray-900">Find a company</h3>
     <div class="mt-2 text-sm leading-5 text-gray-500">
       <div class="mt-3">
-        <div class="flex mt-2">
+        <div class="flex mt-2 hidden">
           <div class="mr-4">Show results from:</div>
           <div v-for="country in countries" :key="country.code" class="mr-4">
             <input

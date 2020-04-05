@@ -1,63 +1,45 @@
 <template>
-  <div class="flex justify-between flex-col-reverse md:flex-row px-4 sm:px-0">
-    <form class="md:mr-4 flex flex-col">
+  <div class="flex justify-between flex-col-reverse xl:flex-row px-4 sm:px-0">
+    <ValidationObserver tag="form" ref="billingForm" class="md:mr-4 flex-1 flex-col mt-10 xl:mt-0">
       <div>
         <h2 class="text-xl leading-6 font-medium text-gray-900">Billing details</h2>
         <div class="mt-4 border-t border-gray-200">
           <div class="mt-6 grid grid-cols-1 row-gap-4 col-gap-4 sm:grid-cols-6">
             <div class="sm:col-span-6">
-              <label
-                for="first_name"
-                class="block text-sm font-medium leading-5 text-gray-700"
-              >Name on card</label>
-              <div class="mt-1 rounded-md shadow-sm">
-                <input
-                  id="first_name"
-                  class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                />
+              <form-group
+                input-class="mt-1"
+                rules="min:3|max:255"
+                :value="user.name"
+                placeholder="Cardholder's name"
+                @input="updateName"
+              >Name on card</form-group>
+            </div>
+            <div class="sm:col-span-3">
+              <form-group
+                input-class="mt-1"
+                v-model="user.email"
+                type="email"
+                placeholder="Reciever's email"
+                rules="email"
+              >Email</form-group>
+            </div>
+            <div class="sm:col-span-3">
+              <form-label>Country / Region</form-label>
+              <div class="mt-1 rounded-md">
+                <form-select
+                  name="Country/Region"
+                  v-model="user.country"
+                  :options="countryDictionary"
+                ></form-select>
               </div>
             </div>
             <div class="sm:col-span-6">
-              <label
-                for="first_name"
-                class="block text-sm font-medium leading-5 text-gray-700"
-              >Address</label>
-              <div class="mt-1 rounded-md shadow-sm">
-                <input
-                  id="first_name"
-                  class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                />
-              </div>
-            </div>
-
-            <div class="sm:col-span-3">
-              <label
-                for="country"
-                class="block text-sm font-medium leading-5 text-gray-700"
-              >Country / Region</label>
-              <div class="mt-1 rounded-md shadow-sm">
-                <select
-                  id="country"
-                  class="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                >
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>Mexico</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="sm:col-span-3">
-              <label
-                for="zip"
-                class="block text-sm font-medium leading-5 text-gray-700"
-              >ZIP / Postal</label>
-              <div class="mt-1 rounded-md shadow-sm">
-                <input
-                  id="zip"
-                  class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                />
-              </div>
+              <form-group
+                input-class="mt-1"
+                v-model="user.address"
+                placeholder="Address"
+                rules="min:3|max:500"
+              >Address</form-group>
             </div>
           </div>
         </div>
@@ -66,51 +48,30 @@
             <h2 class="text-lg leading-6 font-medium text-gray-900 mb-4">Payment details</h2>
           </div>
           <div>
-            <div>
-              <fieldset>
-                <legend class="block text-sm font-medium leading-5 text-gray-700">Card Details</legend>
-                <div class="mt-1 bg-white rounded-md shadow-sm">
-                  <div>
-                    <input
-                      aria-label="Card number"
-                      class="form-input relative block w-full rounded-none rounded-t-md bg-transparent focus:z-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                      placeholder="Card number"
-                    />
-                  </div>
-                  <div class="-mt-px flex">
-                    <div class="w-1/2 flex-1 min-w-0">
-                      <input
-                        aria-label="Card expiration date"
-                        class="form-input relative block w-full rounded-none rounded-bl-md bg-transparent focus:z-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                        placeholder="MM / YY"
-                      />
-                    </div>
-                    <div class="-ml-px flex-1 min-w-0">
-                      <input
-                        aria-label="Card CVC"
-                        class="form-input relative block w-full rounded-none rounded-br-md bg-transparent focus:z-10 transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                        placeholder="CVC"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
+            <div id="card-element">
+              <!-- A Stripe Element will be inserted here. -->
             </div>
+
+            <!-- Used to display form errors. -->
+            <div class="mt-1 text-red-500 text-sm" role="alert">{{ cardErrors }}</div>
           </div>
         </div>
       </div>
       <div class="mt-8 border-t border-gray-200 pt-5">
-        <div class="flex justify-end">
-          <span class="inline-flex rounded-md shadow-sm">
+        <div class="flex justify-center lg:justify-end">
+          <span class="w-full inline-flex rounded-md shadow-sm">
             <button
-              :disabled="!payList || !payList.length"
-              class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out"
+              @click="placeOrder"
+              type="button"
+              class="w-full inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out"
             >Place Order</button>
           </span>
         </div>
       </div>
-    </form>
-    <div class="max-w-md lg:ml-8">
+    </ValidationObserver>
+
+    <!-- Order list -->
+    <div class="flex flex-col xl:ml-8">
       <div class="bg-white shadow overflow-hidden sm:rounded-md">
         <h2 class="text-xl mb-2 px-4 sm:px-6 mt-4">Order details</h2>
         <ul class="border-t border-gray-200">
@@ -127,7 +88,7 @@
               :class="{ 'opacity-50': !isInPayList(comp.id) }"
             >
               <div class="px-4 flex items-center sm:px-6">
-                <div class="min-w-0 flex-wrap flex-1 sm:flex sm:items-center sm:justify-between">
+                <div class="w-full flex flex-col items-stretch justify-center">
                   <div class="w-full text-sm leading-5 font-medium text-blue-600 truncate">
                     <label>
                       <input
@@ -144,10 +105,14 @@
                     :key="opt.value"
                     class="hover:bg-gray-200 ml-5 sm:flex sm:flex-wrap justify-between text-gray-500 text-sm font-medium"
                   >
-                    <label>
-                      <v-popover placement="top" trigger="hover focus">
-                        <div class="flex items-center justify-between">
-                          <div class="flex items-center">
+                    <label class="block w-full">
+                      <v-popover
+                        class="w-full v-popover--block"
+                        placement="top"
+                        trigger="hover focus"
+                      >
+                        <div class="flex flex-wrap md:flex-no-wrap items-center justify-between">
+                          <div class="w-full flex items-center">
                             <input
                               type="checkbox"
                               :id="opt.value"
@@ -155,9 +120,10 @@
                               v-model="comp.options"
                               :disabled="opt.standard || !isInPayList(comp.id)"
                             />
-                            <span class="max-w-xs ml-2 truncate">{{ opt.text }}</span>
+                            <span class="ml-2">{{ opt.text }}</span>
+                            <div class="ml-auto block md:hidden">${{ opt.price }}</div>
                           </div>
-                          <div class="ml-4">${{ opt.price }}</div>
+                          <div class="ml-4 md:block hidden">${{ opt.price }}</div>
                         </div>
                         <template slot="popover">
                           <div
@@ -173,28 +139,11 @@
           </li>
         </ul>
         <div class="border-t border-gray-200 py-2 px-4 sm:px-6 flex items-center">
-          <span class="inline-flex rounded-md shadow-sm">
-            <button
-              :disabled="!payList || !payList.length"
-              class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out"
-            >Place Order</button>
-          </span>
           <div class="text-xl text-right flex-1">
             Total sum
             <span class="font-medium">${{ totalOrder }}</span>
           </div>
         </div>
-      </div>
-      <div>
-        Test payment
-        <card
-          class="stripe-card"
-          :class="{ complete }"
-          stripe="pk_test_oPnsyrSiZ3w8BU9dRxOL75DT00b8nlcyza"
-          :options="stripeOptions"
-          @change="complete = $event.complete"
-        />
-        <button class="pay-with-stripe" @click="pay" :disabled="!complete">Pay with credit card</button>
       </div>
     </div>
   </div>
@@ -203,27 +152,54 @@
 <script>
 import { getCart, setCart } from "@/services/cart";
 import { REPORT_TYPES } from "@/assets/value/report";
-import { Card, createToken } from "vue-stripe-elements-plus";
+import { COUNTRY_DICTIONARY } from "@/assets/value/country";
+import { loadStripe } from "@stripe/stripe-js";
 
-const stripeKey = "pk_test_oPnsyrSiZ3w8BU9dRxOL75DT00b8nlcyza";
 const priceMap = Object.fromEntries(
   REPORT_TYPES.map(option => [option.value, option.price])
 );
 
+const STRIPE_PUBLIC_KEY = "pk_test_oPnsyrSiZ3w8BU9dRxOL75DT00b8nlcyza";
+const STRIPE_CARD_ID = "#card-element";
+const STRIPE_CARD_STYLE = {
+  base: {
+    color: "#000",
+    fontFamily:
+      'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+    fontSmoothing: "antialiased",
+    fontSize: "14px",
+    "::placeholder": {
+      color: "#9fa6b2",
+      opacity: 1
+    }
+  },
+  invalid: {
+    color: "#f05252",
+    iconColor: "#f05252"
+  }
+};
+
 export default {
   name: "Checkout",
-  components: {
-    Card
-  },
+  components: {},
   data() {
     return {
+      countryDictionary: [
+        { text: "Select a country/region", value: "" },
+        ...COUNTRY_DICTIONARY
+      ],
       localCart: [],
       payList: [],
-      billingData: {},
       options: REPORT_TYPES,
-      complete: false,
-      paymentIntent: null,
-      stripeOptions: {}
+      user: {
+        name: "",
+        address: "",
+        email: "",
+        country: ""
+      },
+      tripe: null,
+      card: null,
+      cardErrors: null
     };
   },
   computed: {
@@ -241,25 +217,78 @@ export default {
       return total;
     }
   },
-  mounted() {
+  filters: {
+    uppercase: function(value) {
+      if (!value) return value;
+      return value.toUpperCase();
+    }
+  },
+  async mounted() {
+    await this.createStripeCard();
     this.localCart = getCart();
     this.payList = this.localCart.map(c => c.id);
   },
   methods: {
-    pay() {
-      createToken().then(data => console.log(data.token));
+    updateName(val) {
+      this.user.name = val.toUpperCase();
     },
     updateCart() {
       setCart(this.localCart);
     },
     isInPayList(id) {
       return this.payList.includes(id);
+    },
+    async createStripeCard() {
+      this.stripe = await loadStripe(STRIPE_PUBLIC_KEY);
+      this.card = this.stripe
+        .elements()
+        .create("card", { style: STRIPE_CARD_STYLE });
+      this.card.mount(STRIPE_CARD_ID);
+
+      this.card.addEventListener("change", event => {
+        if (event.error) {
+          this.cardErrors = event.error.message;
+        } else {
+          this.cardErrors = "";
+        }
+      });
+    },
+    async placeOrder() {
+      const isUserValid = await this.$refs.billingForm.validate();
+      const cardResult = await this.stripe.createToken(this.card);
+
+      if (cardResult.error) {
+        this.cardErrors = cardResult.error.message;
+        return;
+      }
+
+      if (!isUserValid) {
+        return;
+      }
+
+      console.log(cardResult.token);
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.stripe-card {
-  @apply font-sans;
+.StripeElement {
+  height: 2.5rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #d2d6dc;
+  @apply appearance-none bg-white rounded-md;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 0 0 3px rgba(164, 202, 254, 0.45);
+  border-color: #a4cafe;
+}
+
+.StripeElement--invalid {
+  border-color: #f05252;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
 }
 </style>

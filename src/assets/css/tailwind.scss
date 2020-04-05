@@ -63,4 +63,9 @@
     transition: opacity .15s;
   }
 }
+
+.v-popover--block,
+.v-popover--block > .trigger {
+  display: block !important;
+}
 @tailwind utilities;
