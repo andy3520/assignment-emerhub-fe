@@ -1,22 +1,22 @@
-const BASE_URL = process.env.NODE_ENV !== "production" ? "/stripe" : process.env.STRIPE_BE;
+const BASE_URL = process.env.NODE_ENV !== "production" ? "/cfs" : "https://asia-northeast1-emerhub-registry.cloudfunctions.net/handleRegistry";
 
 const createIntent = async (user, amount, order) => {
-  console.log(JSON.stringify({
-    amount, user, order
-  }, null, 2));
+
   try {
     const params = {
       method: 'POST',
-      header: {
+      headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         amount, user, order
       })
     }
-    const data = await fetch(`${BASE_URL}/intents`, params)
+    const data = await fetch(`${BASE_URL}/stripeIntent`, params)
 
-    return data.json()
+    const { result } = await data.json()
+
+    return result
 
   } catch (err) {
     console.log(err);

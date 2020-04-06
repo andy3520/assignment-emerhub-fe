@@ -1,5 +1,5 @@
 <template>
-  <nav x-data="{ open: false }" class="bg-white shadow-sm z-1">
+  <nav class="bg-white shadow-sm relative z-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex">
@@ -14,11 +14,11 @@
               class="inline-flex items-center px-1 pt-1 border-b-2 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out"
             >Find a company</router-link>
             <router-link
-              to="/about"
+              to="/#"
               class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
             >About Emerhub Registry</router-link>
             <router-link
-              to="/company"
+              to="/#"
               class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
             >Sample reports</router-link>
           </div>
@@ -83,7 +83,6 @@
           >
             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
               <path
-                :class="{ hidden: open, 'inline-flex': !open }"
                 class="inline-flex"
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -91,7 +90,6 @@
                 d="M4 6h16M4 12h16M4 18h16"
               />
               <path
-                :class="{ hidden: !open, 'inline-flex': open }"
                 class="hidden"
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -103,24 +101,20 @@
         </div>
       </div>
     </div>
-    <div :class="{ block: open, hidden: !open }" class="hidden sm:hidden">
+    <div :class="{ block: open, hidden: !open }">
       <div class="pt-2 pb-3">
         <a
           href="#"
           class="block pl-3 pr-4 py-2 border-l-4 border-blue-500 text-base font-medium text-blue-700 bg-blue-50 focus:outline-none focus:text-blue-800 focus:bg-blue-100 focus:border-blue-700 transition duration-150 ease-in-out"
-        >Dashboard</a>
+        >Find a company</a>
         <a
           href="#"
           class="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-        >Team</a>
+        >About Emerhub Registry</a>
         <a
           href="#"
           class="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-        >Projects</a>
-        <a
-          href="#"
-          class="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-        >Calendar</a>
+        >Sample reports</a>
       </div>
       <div class="pt-4 pb-3 border-t border-gray-200">
         <div class="flex items-center px-4">

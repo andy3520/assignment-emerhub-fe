@@ -14,9 +14,9 @@
       </div>
     </div>
     <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-      <div class="flex px-4 py-5 border-b border-gray-200 sm:px-6">
+      <div class="flex justify-between px-4 py-5 border-b border-gray-200 sm:px-6">
         <h3 class="text-lg leading-6 font-medium text-gray-900 mr-6">Company Information</h3>
-        <v-popover placement="right-start" trigger="hover focus">
+        <v-popover placement="bottom" trigger="hover focus">
           <h4
             class="flex font-medium text-blue-600 hover:text-blue-500 transition duration-150 ease-in-out cursor-pointer"
           >

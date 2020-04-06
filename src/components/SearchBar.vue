@@ -31,6 +31,7 @@
           />
           <button
             type="button"
+            @click="displayFuzzySearchResult(queryString)"
             class="inline-flex justify-center md:mr-0 mt-3 w-full px-3 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-800 shadow-sm hover:bg-gray-700 focus:outline-none focus:shadow-outline active:bg-gray-900 transition duration-150 ease-in-out sm:mt-0 sm:ml-1 sm:flex-shrink-0 sm:inline-flex sm:items-center sm:w-auto"
           >Find</button>
         </div>
@@ -143,7 +144,6 @@ export default {
       try {
         this.loading = true;
         this.topCompanies = await getTopCompanies();
-        console.log("this.topCompanies", this.topCompanies);
         this.sortTopCompanies();
       } catch (error) {
         console.log(error);
@@ -154,6 +154,7 @@ export default {
     },
 
     displayFuzzySearchResult: async function(query) {
+      if (!query) return;
       try {
         this.loading = true;
         this.rawCompanyList = await getCompanyByQuery(query);

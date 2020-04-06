@@ -68,4 +68,8 @@
 .v-popover--block > .trigger {
   display: block !important;
 }
+
+.v--modal {
+  @apply shadow-sm rounded-lg shadow-xl transform transition-all;
+}
 @tailwind utilities;

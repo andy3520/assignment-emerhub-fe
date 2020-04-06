@@ -14,9 +14,9 @@
     <div class="relative mt-12 lg:mt-24 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-top">
       <div class="relative">
         <h4
-          class="text-2xl leading-8 font-extrabold text-gray-900 tracking-tight sm:text-3xl sm:leading-9"
+          class="text-center lg:text-left text-2xl leading-8 font-extrabold text-gray-900 tracking-tight sm:text-3xl sm:leading-9"
         >Purchase private company reports in Southeast Asia</h4>
-        <p class="mt-3 text-lg leading-7 text-gray-500">
+        <p class="text-center lg:text-left mt-3 text-lg leading-7 text-gray-500">
           Purchasing company profiles is very simple. Add the reports you are
           interested in to the cart. Complete the payment. Receive the reports
           to your email in one working day (except for the Philippines which

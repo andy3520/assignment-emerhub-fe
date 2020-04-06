@@ -6,6 +6,7 @@
         errors[0] || errorMessage ? 'border-red-500' : ''
       ]"
       :value="value"
+      :disabled="disabled"
       @input="handleInput"
       @blur="handelBlur"
       @change="handleChange"
@@ -40,6 +41,10 @@ export default {
       default: ""
     },
     optional: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     }

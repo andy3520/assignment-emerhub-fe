@@ -38,6 +38,11 @@ function configRoutes() {
           name: 'Checkout',
           component: () => import('@/views/PageCheckout'),
         },
+        {
+          path: '/thankyou',
+          name: 'Thankyou',
+          component: () => import('@/views/Thankyou'),
+        },
       ]
     },
   ]

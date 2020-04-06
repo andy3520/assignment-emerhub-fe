@@ -6,6 +6,7 @@ import FormGroup from '@/components/FormGroup';
 import FormLabel from '@/components/FormLabel';
 import FormInput from '@/components/FormInput';
 import FormSelect from "./components/FormSelect";
+import VModal from 'vue-js-modal'
 
 import '@/assets/css/tailwind.scss'
 import router from '@/router';
@@ -38,6 +39,21 @@ Object.keys(rules).forEach(rule => {
   });
 });
 
+Vue.directive("disable-all", {
+  // When all the children of the parent component have been updated
+  componentUpdated: function (el, binding) {
+    if (!binding.value) return;
+    const tags = ["input", "button", "textarea", "select"];
+    tags.forEach(tagName => {
+      const nodes = el.getElementsByTagName(tagName);
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].disabled = true;
+        nodes[i].tabIndex = -1;
+      }
+    });
+  }
+});
+
 Vue.component("ValidationObserver", ValidationObserver);
 Vue.component("ValidationProvider", ValidationProvider);
 Vue.component("form-input", FormInput);
@@ -47,6 +63,7 @@ Vue.component("form-select", FormSelect);
 
 Vue.use(VTooltip)
 Vue.use(VueFuse)
+Vue.use(VModal)
 VTooltip.options.popover.defaultPlacement = 'right-start'
 VTooltip.options.defaultPlacement = 'right-start'
 Vue.config.productionTip = false

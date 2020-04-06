@@ -32,11 +32,11 @@ const getCachedData = async (cacheKey, path, options = {}) => {
 }
 
 const getTopCompanies = async () => {
-  return await getCachedData(TOP_COMPANY_CACHE_KEY, 'incTopCompanies')
+  return await getCachedData(TOP_COMPANY_CACHE_KEY, 'incTopCompanies?countryids=IDN')
 }
 
 const getCompanyByQuery = async (query) => {
-  return await getCachedData(query, `incCompanies?search=${query}`)
+  return await getCachedData(query, `incCompanies?search=${query}&countryids=IDN`)
 }
 
 const getCompanyDetail = async (systemId) => {
