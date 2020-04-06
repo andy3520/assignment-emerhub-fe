@@ -82,7 +82,9 @@ export default {
 
       queryString: "",
       error: "",
-      loading: false
+      loading: false,
+
+      debounceTimer: null
     };
   },
   watch: {
@@ -132,11 +134,15 @@ export default {
       this.displayCompanies = remapedLegalEntityAndFilteredResult;
     });
 
-    this.$on("updateQueryString", async function(query) {
-      if (this.queryString.trim().length < 2 && query.trim().length === 2) {
-        await this.displayFuzzySearchResult(query);
-      }
-      this.queryString = query;
+    this.$on("updateQueryString", function(query) {
+      if (!query || !query.trim()) return;
+      clearTimeout(this.debounceTimer);
+      console.log("query");
+      this.debounceTimer = setTimeout(async () => {
+        console.log("fetch");
+        await this.displayFuzzySearchResult(query.trim());
+        this.queryString = query;
+      }, 500);
     });
   },
   methods: {
@@ -233,6 +239,9 @@ export default {
         ...clonedTopCompanies
       ]);
     }
+  },
+  beforeDestroy() {
+    clearTimeout(this.debounceTimer);
   }
 };
 </script>

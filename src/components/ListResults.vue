@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white shadow overflow-hidden sm:rounded-md">
-    <ul class="mb-8">
+    <ul class>
       <li
         class="border-t border-gray-200"
         v-for="company in paginatedCompnanies"

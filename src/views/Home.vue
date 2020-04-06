@@ -3,7 +3,8 @@
     <div class="relative">
       <h1
         class="text-center text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
-      >Company profiles in Indonesia, Vietnam and the Philippines</h1>
+      >Company profiles in Indonesia</h1>
+      <!-- Vietnam and the Philippines -->
       <p class="mt-4 max-w-3xl mx-auto text-center text-xl leading-7 text-gray-500">
         We have shareholding information of over 10M companies registered in
         Southeast Asia. The only register to deliver the reports directly from
