@@ -49,7 +49,7 @@
                       </svg>
                       {{ company.city }}
                     </div>
-                    <div
+                    <!-- <div
                       v-if="company.viewCount + '' || company.viewCount === ''"
                       class="mt-2 mr-6 flex items-center text-sm leading-5 text-gray-500 sm:mt-0"
                     >
@@ -63,7 +63,7 @@
                         />
                       </svg>
                       {{ company.viewCount ? company.viewCount : 0 }}
-                    </div>
+                    </div>-->
                     <div
                       v-if="company.brandName"
                       class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mt-0"
@@ -185,11 +185,11 @@ export default {
   },
   methods: {
     toggleCart(company) {
-      if (indexInCart(company.systemId) === -1) {
-        this.$router.push({
-          path: this.companyLink(company)
-        });
-      }
+      // if (indexInCart(company.systemId) === -1) {
+      //   this.$router.push({
+      //     path: this.companyLink(company)
+      //   });
+      // }
 
       const { systemId, name } = company;
       this.localCart = toggleItem({
