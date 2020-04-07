@@ -209,10 +209,10 @@ export default {
       return brandName.replace(/brand-/, "");
     },
     companyLink(company) {
-      const { countryCode, id, systemId } = company;
-      const letterCode = countryCode.toLowerCase().slice(0, 1);
-      const systemIdOpts = systemId ? `_${systemId}` : "";
-      return `/product/${letterCode}_${id}${systemIdOpts}`;
+      const { countryCode, name, systemId } = company;
+      const country = this.countries.find(c => c.code === countryCode)
+      const encodeName = name ? encodeURIComponent(name.split(' ').join('-')) : name
+      return `/product/${country.text}/${encodeName}/${systemId}`;
     },
     changePage(page) {
       this.currentPage = page;

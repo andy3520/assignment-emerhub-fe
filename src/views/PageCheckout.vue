@@ -8,7 +8,7 @@
         <h2 class="text-xl leading-6 font-medium text-gray-900">Billing details</h2>
         <div class="mt-4 border-t border-gray-200">
           <div class="mt-6 grid grid-cols-1 row-gap-4 col-gap-4 sm:grid-cols-6">
-            <div class="sm:col-span-6">
+            <div class="sm:col-span-3">
               <form-group
                 :disabled="paymentLoading"
                 input-class="mt-1"
@@ -38,6 +38,17 @@
                   :options="countryDictionary"
                 ></form-select>
               </div>
+            </div>
+            <div class="sm:col-span-3">
+              <form-group
+                :disabled="paymentLoading"
+                input-class="mt-1"
+                v-model="user.zip"
+                type="text"
+                rules="numeric"
+                :optional="true"
+                placeholder="Zip code"
+              >Zip code</form-group>
             </div>
             <!-- <div class="sm:col-span-6">
               <form-group
@@ -272,7 +283,8 @@ export default {
         name: "",
         // address: "",
         email: "",
-        country: ""
+        country: "",
+        zip: ""
       },
       error: {
         title: "",
@@ -324,7 +336,7 @@ export default {
       this.stripe = await loadStripe(STRIPE_PUBLIC_KEY);
       this.card = this.stripe
         .elements()
-        .create("card", { style: STRIPE_CARD_STYLE });
+        .create("card", { hidePostalCode: true, style: STRIPE_CARD_STYLE });
       this.card.mount(STRIPE_CARD_ID);
 
       this.card.addEventListener("change", event => {
@@ -348,7 +360,7 @@ export default {
       this.error.title = "";
       this.$modal.hide("error");
     },
-    async placeOrder() {
+    async placeOrder() {      
       if (this.paymentLoading) return;
 
       this.paymentLoading = true;
@@ -376,6 +388,10 @@ export default {
       const stringOrder = mapOrder.join();
       const stripeAmount = this.totalOrder * 100;
 
+      if (this.user.zip) {
+        await this.card.update({value: {postalCode: this.user.zip}})
+      }
+
       const payment = await this.stripe.createPaymentMethod({
         type: "card",
         card: this.card,
@@ -384,10 +400,11 @@ export default {
           email: this.user.email,
           address: {
             country: this.user.country,
-            postal_code: this.card.address_zip
+            postal_code: this.user.zip
           }
         }
       });
+
       // Payment detail invalid
       if (payment.error) {
         this.card.focus();
@@ -401,6 +418,7 @@ export default {
           this.showError();
           return;
         }
+
         const confirmCardPayment = await this.stripe.confirmCardPayment(
           intent.client_secret,
           {

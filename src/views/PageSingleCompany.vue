@@ -181,8 +181,7 @@ export default {
   },
   async created() {
     try {
-      const comboId = this.$route.params.comboId + "";
-      const systemId = comboId.split("_").pop();
+      const systemId = this.$route.params.systemId + "";
       this.loading = true;
       const [detail] = await getCompanyDetail(systemId);
       this.company = detail;

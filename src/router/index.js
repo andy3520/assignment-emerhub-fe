@@ -24,7 +24,7 @@ function configRoutes() {
           component: () => import('@/views/Home')
         },
         {
-          path: '/product/:comboId',
+          path: '/product/:country/:companyName/:systemId',
           name: 'ComapnyDetail',
           component: () => import('@/views/PageSingleCompany')
         },
@@ -43,6 +43,7 @@ function configRoutes() {
           name: 'Thankyou',
           component: () => import('@/views/Thankyou'),
         },
+        { path: "*", component: () => import('@/views/NotFound') }
       ]
     },
   ]
