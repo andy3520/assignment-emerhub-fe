@@ -212,7 +212,7 @@ export default {
       const { countryCode, name, systemId } = company;
       const country = this.countries.find(c => c.code === countryCode)
       const encodeName = name ? encodeURIComponent(name.split(' ').join('-')) : name
-      return `/product/${country.text}/${encodeName}/${systemId}`;
+      return `/${country.text}/${encodeName}/${systemId}`;
     },
     changePage(page) {
       this.currentPage = page;
