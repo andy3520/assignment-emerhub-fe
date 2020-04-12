@@ -49,6 +49,7 @@
 <script>
 import { COUNTRIES } from "@/assets/value/country";
 import AbortController from "abort-controller";
+import dlv from "dlv";
 
 import {
   getTopCompanies,
@@ -116,8 +117,10 @@ export default {
       }
 
       return companyData.map(company => {
-        const name = company.name.replace(this.legalEntityKeys, "");
-        const brandName = company.brandName.replace(this.legalEntityKeys, "");
+        const defaultName = dlv(company, "name", "");
+        const defaultBrand = dlv(company, "brand", "");
+        const name = defaultName.replace(this.legalEntityKeys, "");
+        const brandName = defaultBrand.replace(this.legalEntityKeys, "");
 
         return Object.assign({}, company, { name, brandName });
       });
@@ -142,10 +145,10 @@ export default {
     this.$on("updateQueryString", function(query) {
       if (!query || !query.trim()) return;
       clearTimeout(this.debounceTimer);
-      console.log("query");
+      console.log("query change");
       this.debounceTimer = setTimeout(async () => {
-        console.log("fetch");
         await this.displayFuzzySearchResult(query.trim());
+        console.log("fetch data");
         this.queryString = query;
       }, 500);
     });
