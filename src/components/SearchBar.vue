@@ -21,6 +21,7 @@
             :list="legalKeyRemovedCompanies"
             :keys="indexKeys"
             :threshold="1.0"
+            :tokenize="true"
             :max-pattern-length="255"
             input-change-event-name="updateQueryString"
             event-name="fuzzySearchCompany"
@@ -47,6 +48,8 @@
 
 <script>
 import { COUNTRIES } from "@/assets/value/country";
+import AbortController from "abort-controller";
+
 import {
   getTopCompanies,
   getCompanyByQuery,
@@ -84,7 +87,9 @@ export default {
       error: "",
       loading: false,
 
-      debounceTimer: null
+      debounceTimer: null,
+      fetchController: null,
+      signal: null
     };
   },
   watch: {
@@ -163,12 +168,23 @@ export default {
       if (!query) return;
       try {
         this.loading = true;
-        this.rawCompanyList = await getCompanyByQuery(query);
+        if (this.fetchController) {
+          this.fetchController.abort();
+        }
+
+        this.fetchController = new AbortController();
+        this.signal = this.fetchController.signal;
+
+        const listData = await getCompanyByQuery(query, this.signal);
+
+        if (!listData) return;
+        const deDuplicatList = this.uniq(listData);
+        this.rawCompanyList = deDuplicatList;
+        this.loading = false;
       } catch (error) {
         console.log(error);
-        this.error = DEFAULT_ERROR_MESSAGE;
-      } finally {
         this.loading = false;
+        this.error = DEFAULT_ERROR_MESSAGE;
       }
     },
 
@@ -238,6 +254,14 @@ export default {
         ...topPH,
         ...clonedTopCompanies
       ]);
+    },
+    uniq(list) {
+      let seen = {};
+      return list.filter(function(company) {
+        return seen.hasOwnProperty(company.id)
+          ? false
+          : (seen[company.id] = true);
+      });
     }
   },
   beforeDestroy() {

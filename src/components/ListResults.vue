@@ -17,8 +17,8 @@
                     class="text-sm leading-5 font-medium text-blue-600 truncate"
                   >{{ company.name }}</h3>
                 </router-link>
-                <div class="mt-2 sm:flex sm:justify-between">
-                  <div class="flex flex-0 flex-wrap info-wrapper">
+                <div class="mt-2 sm:flex sm:justify-between info-wrapper">
+                  <div class="flex flex-0 flex-wrap">
                     <div
                       v-if="company.countryCode"
                       class="mr-6 flex items-center text-sm leading-5 text-gray-500"
@@ -210,8 +210,10 @@ export default {
     },
     companyLink(company) {
       const { countryCode, name, systemId } = company;
-      const country = this.countries.find(c => c.code === countryCode)
-      const encodeName = name ? encodeURIComponent(name.split(' ').join('-')) : name
+      const country = this.countries.find(c => c.code === countryCode);
+      const encodeName = name
+        ? encodeURIComponent(name.split(" ").join("-"))
+        : name;
       return `/${country.text}/${encodeName}/${systemId}`;
     },
     changePage(page) {

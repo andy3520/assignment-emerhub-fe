@@ -26,6 +26,11 @@ const getCachedData = async (cacheKey, path, options = {}) => {
 
     return result;
   } catch (error) {
+    if (error.name === 'AbortError') {
+      console.log('User continue type abort old request');
+      return;
+    }
+
     console.log(error);
     throw new Error(`Fetch data error ${path}`)
   }
@@ -35,8 +40,8 @@ const getTopCompanies = async () => {
   return await getCachedData(TOP_COMPANY_CACHE_KEY, 'incTopCompanies?countryids=IDN')
 }
 
-const getCompanyByQuery = async (query) => {
-  return await getCachedData(query, `incCompanies?search=${query}&countryids=IDN`)
+const getCompanyByQuery = async (query, signal) => {
+  return await getCachedData(query, `incCompanies?search=${query}&countryids=IDN`, { signal })
 }
 
 const getCompanyDetail = async (systemId) => {
