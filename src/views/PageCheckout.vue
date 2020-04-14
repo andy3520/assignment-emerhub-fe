@@ -247,7 +247,7 @@ const priceMap = Object.fromEntries(
   REPORT_TYPES.map(option => [option.value, option.price])
 );
 
-const STRIPE_PUBLIC_KEY = "pk_test_oPnsyrSiZ3w8BU9dRxOL75DT00b8nlcyza";
+const STRIPE_PUBLIC_KEY = "pk_test_VWr2CtOHNhSt6Otvd5ahu2v9";
 const STRIPE_CARD_ID = "#card-element";
 const STRIPE_CARD_STYLE = {
   base: {
@@ -360,7 +360,7 @@ export default {
       this.error.title = "";
       this.$modal.hide("error");
     },
-    async placeOrder() {      
+    async placeOrder() {
       if (this.paymentLoading) return;
 
       this.paymentLoading = true;
@@ -389,7 +389,7 @@ export default {
       const stripeAmount = this.totalOrder * 100;
 
       if (this.user.zip) {
-        await this.card.update({value: {postalCode: this.user.zip}})
+        await this.card.update({ value: { postalCode: this.user.zip } });
       }
 
       const payment = await this.stripe.createPaymentMethod({
