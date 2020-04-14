@@ -65,7 +65,7 @@ const PH = COUNTRY_CODE[2];
 
 const DEFAULT_ERROR_MESSAGE = "Something wrong happened";
 const FUZZ_INDEX_KEYS = ["name", "brandName"];
-const LEGAL_ENTITY_KEYS = /(pt|llc|limited|plc|company|corporation|tbk|lp|llp|lllp|corp|pllc|inc)[.\s]{0,}/gi;
+const LEGAL_ENTITY_KEYS = /(pt|llc|limited|plc|company|corporation|tbk|lp|llp|lllp|corp|pllc|inc|-)[.\s]{0,}/gi;
 
 export default {
   name: "SearchBar",
@@ -118,7 +118,7 @@ export default {
 
       return companyData.map(company => {
         const defaultName = dlv(company, "name", "");
-        const defaultBrand = dlv(company, "brand", "");
+        const defaultBrand = dlv(company, "brandName", "");
         const name = defaultName.replace(this.legalEntityKeys, "");
         const brandName = defaultBrand.replace(this.legalEntityKeys, "");
 
