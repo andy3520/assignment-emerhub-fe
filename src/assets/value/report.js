@@ -1,7 +1,7 @@
 const REPORT_TYPES = [
   {
     text: "Standard Report",
-    price: 50,
+    price: 1,
     info: "Current shareholders and Board of Directors",
     value: "standard",
     standard: true
@@ -9,7 +9,7 @@ const REPORT_TYPES = [
   {
     text: "Include all revisions to the Articles of Association",
     shortTitle: "Extended Report",
-    price: 200,
+    price: 2,
     info: "All revisions to the shareholders and Board of Directors",
     value: "extended"
   }
