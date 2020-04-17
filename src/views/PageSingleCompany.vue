@@ -204,7 +204,7 @@ export default {
       this.selectedOptions.push(val);
     },
     updateCartAndCheckout() {
-      const { systemId, name } = this.company;
+      const { id, systemId, name } = this.company;
       if (indexInCart(systemId) > -1) {
         this.localCart.map(company => {
           if (company.systemId === systemId) {
@@ -213,6 +213,7 @@ export default {
         });
       } else {
         this.localCart.push({
+          id,
           systemId,
           name,
           options: this.selectedOptions

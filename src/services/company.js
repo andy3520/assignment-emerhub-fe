@@ -27,7 +27,6 @@ const getCachedData = async (cacheKey, path, options = {}) => {
     return result;
   } catch (error) {
     if (error.name === 'AbortError') {
-      console.log('User continue type abort old request');
       return;
     }
 

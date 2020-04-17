@@ -24,6 +24,40 @@ const createIntent = async (user, amount, order) => {
   }
 }
 
+const postDataToWordpress = async (intentId, user, order) => {
+  try {
+    const payload = {
+      intentId,
+      paymentMethod: "Credit Card",
+      currency: "USD",
+      user,
+      order
+    }
+
+    const params = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...payload
+      })
+    }
+
+    console.log(JSON.stringify(payload, null, 2));
+
+    const data = await fetch(`${BASE_URL}/stripeSucces`, params)
+
+    const { result } = await data.json()
+
+    return result
+  } catch (error) {
+    console.log(error)
+    throw new Error(`Can't post payment data to wordpress`)
+  }
+}
+
 export {
-  createIntent
+  createIntent,
+  postDataToWordpress
 }

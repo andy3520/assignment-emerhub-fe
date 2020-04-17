@@ -241,13 +241,13 @@ import { getCart, setCart } from "@/services/cart";
 import { REPORT_TYPES } from "@/assets/value/report";
 import { COUNTRY_DICTIONARY } from "@/assets/value/country";
 import { loadStripe } from "@stripe/stripe-js";
-import { createIntent } from "@/services/checkout";
+import { createIntent, postDataToWordpress } from "@/services/checkout";
 
-const priceMap = Object.fromEntries(
+const PRICE_MAP = Object.fromEntries(
   REPORT_TYPES.map(option => [option.value, option.price])
 );
 
-const STRIPE_PUBLIC_KEY = "pk_live_N1FLSph70EoASSFvPCn3vafx";
+const STRIPE_PUBLIC_KEY = "pk_test_VWr2CtOHNhSt6Otvd5ahu2v9";
 const STRIPE_CARD_ID = "#card-element";
 const STRIPE_CARD_STYLE = {
   base: {
@@ -293,7 +293,8 @@ export default {
       tripe: null,
       card: null,
       cardErrors: null,
-      paymentLoading: false
+      paymentLoading: false,
+      priceMap: PRICE_MAP
     };
   },
   computed: {
@@ -304,7 +305,7 @@ export default {
         .filter(comp => this.payList.includes(comp.systemId))
         .forEach(comp => {
           comp.options.forEach(opt => {
-            total += priceMap[opt];
+            total += this.priceMap[opt];
           });
         });
 
@@ -379,6 +380,7 @@ export default {
       const order = this.payList.map(systemId => {
         return this.localCart.find(c => c.systemId === systemId);
       });
+
       const mapOrder = order.map(({ systemId, options }) => {
         const mapOpts = options.map(
           opt => `${systemId}_${opt === "standard" ? "SR" : "ER"}`
@@ -443,6 +445,15 @@ export default {
           this.showError();
           return;
         }
+
+        // Post data to wordpress
+        try {
+          await this.processAndSendDataToWordpress(order, this.user, intent.id);
+        } catch (error) {
+          console.log(error);
+        }
+        // Post data to wordpress end
+
         this.localCart = this.localCart.filter(c => {
           return !this.payList.includes(c.systemId);
         });
@@ -453,6 +464,45 @@ export default {
       } finally {
         this.paymentLoading = false;
       }
+    },
+
+    async processAndSendDataToWordpress(order, user, intentId) {
+      if (!order || !user || !intentId) return;
+
+      const wpOrder = order.map(({ id, systemId, name, options }) => {
+        let amount = 0;
+        const stringOptions = options
+          .map(opt => {
+            amount += this.priceMap[opt];
+            return opt === "standard" ? "SR" : "ER";
+          })
+          .join();
+
+        return {
+          companyName: name,
+          companyId: id,
+          systemId,
+          quantity: 1,
+          options: stringOptions,
+          amount: amount + ""
+        };
+      });
+
+      const { country, email, name, zip } = user;
+
+      const { text: countryName } = this.countryDictionary.find(
+        item => item.value === country
+      );
+
+      const wpUser = {
+        name,
+        email,
+        country: countryName,
+        address: "",
+        zipcode: +zip
+      };
+
+      return await postDataToWordpress(intentId, wpUser, wpOrder);
     }
   }
 };

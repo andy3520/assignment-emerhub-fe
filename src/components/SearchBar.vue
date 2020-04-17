@@ -145,10 +145,8 @@ export default {
     this.$on("updateQueryString", function(query) {
       if (!query || !query.trim()) return;
       clearTimeout(this.debounceTimer);
-      console.log("query change");
       this.debounceTimer = setTimeout(async () => {
         await this.displayFuzzySearchResult(query.trim());
-        console.log("fetch data");
         this.queryString = query;
       }, 500);
     });

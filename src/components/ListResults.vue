@@ -191,8 +191,9 @@ export default {
       //   });
       // }
 
-      const { systemId, name } = company;
+      const { id, systemId, name } = company;
       this.localCart = toggleItem({
+        id,
         systemId,
         name,
         options: ["standard"]
