@@ -43,6 +43,16 @@ function configRoutes() {
           name: 'Thankyou',
           component: () => import('@/views/Thankyou'),
         },
+        {
+          path: '/about',
+          name: 'About',
+          component: () => import('@/views/About'),
+        },
+        {
+          path: '/sample',
+          name: 'Sample',
+          component: () => import('@/views/Sample'),
+        },
         { path: "*", component: () => import('@/views/NotFound') }
       ]
     },
