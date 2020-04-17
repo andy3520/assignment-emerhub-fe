@@ -11,13 +11,13 @@
         >
           <div class="px-4 py-4 sm:px-6">
             <div class="flex items-center justify-between">
-              <div>
+              <div class="info-wrapper">
                 <router-link :to="companyLink(company)">
                   <h3
                     class="text-sm leading-5 font-medium text-blue-600 truncate"
                   >{{ company.name }}</h3>
                 </router-link>
-                <div class="mt-2 sm:flex sm:justify-between info-wrapper">
+                <div class="mt-2 sm:flex sm:justify-between">
                   <div class="flex flex-0 flex-wrap">
                     <div
                       v-if="company.countryCode"
@@ -225,6 +225,6 @@ export default {
 </script>
 <style scoped>
 .info-wrapper {
-  max-width: 17rem;
+  max-width: 13rem;
 }
 </style>

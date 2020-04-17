@@ -8,22 +8,10 @@
               <span class="text-2xl text-teal-900">EMERHUB</span>
             </router-link>
           </div>
-          <div class="hidden sm:ml-6 sm:flex">
-            <router-link
-              to="/"
-              class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out"
-              exact
-            >Find a company</router-link>
-            <router-link
-              to="/about"
-              class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
-              exact
-            >About Emerhub Registry</router-link>
-            <router-link
-              to="/sample"
-              class="ml-8 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
-              exact
-            >Sample reports</router-link>
+          <div class="hidden sm:ml-6 sm:flex" id="desktopNav">
+            <router-link to="/" class="desktop-nav-item" exact>Find a company</router-link>
+            <router-link to="/about" class="ml-8 desktop-nav-item" exact>About Emerhub Registry</router-link>
+            <router-link to="/sample" class="ml-8 desktop-nav-item" exact>Sample reports</router-link>
           </div>
         </div>
         <!-- <div v-on:click="isOpen = !isOpen" class="hidden sm:ml-6 sm:flex sm:items-center">
@@ -104,20 +92,11 @@
         </div>
       </div>
     </div>
-    <div :class="{ block: open, hidden: !open }">
+    <div :class="{ block: open, hidden: !open }" id="phoneNav">
       <div class="pt-2 pb-3">
-        <a
-          href="#"
-          class="block pl-3 pr-4 py-2 border-l-4 border-blue-500 text-base font-medium text-blue-700 bg-blue-50 focus:outline-none focus:text-blue-800 focus:bg-blue-100 focus:border-blue-700 transition duration-150 ease-in-out"
-        >Find a company</a>
-        <a
-          href="#"
-          class="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-        >About Emerhub Registry</a>
-        <a
-          href="#"
-          class="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-        >Sample reports</a>
+        <router-link exact to="/" class="phone-nav-item">Find a company</router-link>
+        <router-link exact to="/about" class="mt-1 phone-nav-item">About Emerhub Registry</router-link>
+        <router-link exact to="/sample" class="mt-1 phone-nav-item">Sample reports</router-link>
       </div>
       <!-- <div class="pt-4 pb-3 border-t border-gray-200">
         <div class="flex items-center px-4">
@@ -167,8 +146,44 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.router-link-exact-active,
-.active {
-  @apply border-blue-500;
+#desktopNav {
+  .router-link-exact-active,
+  .active {
+    @apply border-blue-500 text-gray-900 font-bold;
+  }
+}
+
+#phoneNav {
+  .router-link-exact-active,
+  .active {
+    @apply border-blue-500 text-blue-700 bg-blue-50;
+
+    &:focus {
+      @apply text-blue-800 bg-blue-100 border-blue-700;
+    }
+  }
+}
+
+.desktop-nav-item {
+  @apply border-b-2 border-transparent inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 transition duration-150 ease-in-out;
+
+  &:hover {
+    @apply text-gray-700 border-gray-300;
+  }
+
+  &:focus {
+    @apply outline-none text-gray-700 border-gray-300;
+  }
+}
+
+.phone-nav-item {
+  @apply block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 transition duration-150 ease-in-out;
+  &:hover {
+    @apply text-gray-800 bg-gray-50 border-gray-300;
+  }
+
+  &:focus {
+    @apply outline-none text-gray-800 bg-gray-50 border-gray-300;
+  }
 }
 </style>
