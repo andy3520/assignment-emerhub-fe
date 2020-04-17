@@ -36,11 +36,23 @@ const getCachedData = async (cacheKey, path, options = {}) => {
 }
 
 const getTopCompanies = async () => {
-  return await getCachedData(TOP_COMPANY_CACHE_KEY, 'incTopCompanies?countryids=IDN')
+  const options = {
+    method: 'GET',
+    crossDomain: true
+  }
+
+  return await getCachedData(TOP_COMPANY_CACHE_KEY, 'incTopCompanies?countryids=IDN', options)
 }
 
 const getCompanyByQuery = async (query, signal) => {
-  return await getCachedData(query, `incCompanies?search=${query}&countryids=IDN`, { signal })
+  const options = {
+    method: 'GET',
+    crossDomain: true,
+    withCredential: true,
+    signal
+  }
+
+  return await getCachedData(query, `incCompanies?search=${query}&countryids=IDN`, options)
 }
 
 const getCompanyDetail = async (systemId) => {
@@ -50,6 +62,7 @@ const getCompanyDetail = async (systemId) => {
     headers: {
       'Content-Type': 'application/json'
     },
+    crossDomain: true,
     body: JSON.stringify({ systemId: systemId })
   }
 

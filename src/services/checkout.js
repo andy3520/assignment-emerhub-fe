@@ -8,6 +8,7 @@ const createIntent = async (user, amount, order) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      crossDomain: true,
       body: JSON.stringify({
         amount, user, order
       })
@@ -39,6 +40,7 @@ const postDataToWordpress = async (intentId, user, order) => {
       headers: {
         'Content-Type': 'application/json'
       },
+      crossDomain: true,
       body: JSON.stringify({
         ...payload
       })

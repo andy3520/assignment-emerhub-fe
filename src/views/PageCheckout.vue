@@ -247,7 +247,7 @@ const PRICE_MAP = Object.fromEntries(
   REPORT_TYPES.map(option => [option.value, option.price])
 );
 
-const STRIPE_PUBLIC_KEY = "pk_live_N1FLSph70EoASSFvPCn3vafx";
+const STRIPE_PUBLIC_KEY = "pk_test_VWr2CtOHNhSt6Otvd5ahu2v9";
 const STRIPE_CARD_ID = "#card-element";
 const STRIPE_CARD_STYLE = {
   base: {

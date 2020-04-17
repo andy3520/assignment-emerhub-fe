@@ -38,7 +38,11 @@ export default {
   async created() {
     try {
       this.loading = true;
-      const response = await fetch(this.fetchURL);
+      const options = {
+        method: "GET",
+        crossDomain: true
+      };
+      const response = await fetch(this.fetchURL, options);
       const { title, content } = await response.json();
       this.title = title.rendered;
       this.htmlContent = content.rendered;
