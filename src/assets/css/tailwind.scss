@@ -1,72 +1,60 @@
 @tailwind base;
 @tailwind components;
 
+
 .tooltip {
-  display: block !important;
-  z-index: 10000;
+  @apply block z-50;
 
   .tooltip-inner {
-    background: black;
-    color: white;
-    border-radius: 16px;
-    padding: 5px 10px 4px;
+    @apply bg-black text-white rounded px-1 py-2;
   }
 
   .tooltip-arrow {
-    visibility: hidden;
+    @apply invisible;
   }
 
   &[x-placement^="top"] {
-    margin-bottom: 5px;
+    @apply mb-1;
   }
 
   &[x-placement^="bottom"] {
-    margin-top: 5px;
+    @apply mt-1;
   }
 
   &[x-placement^="right"] {
-    margin-left: 5px;
+    @apply ml-1;
   }
 
   &[x-placement^="left"] {
-    top: 30px !important;
-    left: auto !important;
-    right: 0px !important;
-    margin: 0px !important;
+    @apply m-0 top-10 mr-0;
   }
 
   &.popover {
-    $color: #f9f9f9;
 
     .popover-inner {
-      background: $color;
-      color: black;
-      padding: 0;
-      border-radius: 5px;
-      box-shadow: 0 5px 30px rgba(black, .1);
+      @apply bg-white p-0 text-black rounded shadow;
     }
 
     .popover-arrow {
-      border-color: $color;
+      @apply border-white;
     }
   }
 
   &[aria-hidden='true'] {
-    visibility: hidden;
-    opacity: 0;
     transition: opacity .15s, visibility .15s;
+
+    @apply invisible opacity-0;
   }
 
   &[aria-hidden='false'] {
-    visibility: visible;
-    opacity: 1;
     transition: opacity .15s;
+    @apply visible opacity-100;
   }
 }
 
 .v-popover--block,
 .v-popover--block > .trigger {
-  display: block !important;
+  @apply block;
 }
 
 .v--modal {

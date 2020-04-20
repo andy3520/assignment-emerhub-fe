@@ -5,7 +5,7 @@
         <div class="flex">
           <div class="flex-shrink-0 flex items-center">
             <router-link to="/" exact>
-              <span class="text-2xl text-teal-900">EMERHUB</span>
+              <img src="@/assets/logo.png" alt="Emerhub logo" class="w-40" />
             </router-link>
           </div>
           <div class="hidden sm:ml-6 sm:flex" id="desktopNav">

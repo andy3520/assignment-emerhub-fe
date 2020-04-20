@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-sm p-6">
+  <div class="max-w-md p-6">
     <h3
       class="text-xl font-bold leading-7 text-gray-900 sm:text-2xl sm:leading-9 sm:truncate"
     >Information included in report:</h3>
@@ -23,8 +23,7 @@ const INFO = [
   "Name and domicile",
   "Business activities",
   "Number and date of estabilishment",
-  "Minister's Decree of company ratification",
-  "Contact details of shareholders, members of board of directors and board of commissioners"
+  "Minister's Decree of company ratification"
 ];
 export default {
   props: {

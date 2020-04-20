@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 sm:px-6">
+  <div class="px-4 sm:px-6 relative">
     <div class="md:flex md:items-center md:justify-between mb-4">
       <div class="flex-1 min-w-0">
         <h1
@@ -13,10 +13,12 @@
         </div>
       </div>
     </div>
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-      <div class="flex justify-between px-4 py-5 border-b border-gray-200 sm:px-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900 mr-6">Company Information</h3>
-        <v-popover placement="bottom" trigger="hover focus">
+    <div class="relative bg-white shadow overflow-hidden sm:rounded-lg z-50">
+      <div class="flex flex-wrap justify-between px-4 py-5 border-b border-gray-200 sm:px-6">
+        <h3
+          class="w-full sm:w-auto text-lg leading-6 font-medium text-gray-900 mr-6"
+        >Company Information</h3>
+        <v-popover placement="auto" trigger="hover focus">
           <h4
             class="flex font-medium text-blue-600 hover:text-blue-500 transition duration-150 ease-in-out cursor-pointer"
           >
