@@ -215,7 +215,7 @@ export default {
       const encodeName = name
         ? encodeURIComponent(name.split(" ").join("-"))
         : name;
-      return `/${country.text}/${encodeName}/${systemId}`;
+      return `${country.text}/${encodeName}/${systemId}`;
     },
     changePage(page) {
       this.currentPage = page;

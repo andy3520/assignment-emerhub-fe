@@ -19,37 +19,37 @@ function configRoutes() {
       component: MainContainer,
       children: [
         {
-          path: '/',
+          path: '',
           name: 'Home',
           component: () => import('@/views/Home')
         },
         {
-          path: '/:country/:companyName/:systemId',
+          path: ':country/:companyName/:systemId',
           name: 'ComapnyDetail',
           component: () => import('@/views/PageSingleCompany')
         },
         {
-          path: '/login',
+          path: 'login',
           name: 'Login',
           component: () => import('@/views/PageLogin'),
         },
         {
-          path: '/checkout',
+          path: 'checkout',
           name: 'Checkout',
           component: () => import('@/views/PageCheckout'),
         },
         {
-          path: '/thankyou',
+          path: 'thankyou',
           name: 'Thankyou',
           component: () => import('@/views/Thankyou'),
         },
         {
-          path: '/about',
+          path: 'about',
           name: 'About',
           component: () => import('@/views/About'),
         },
         {
-          path: '/sample',
+          path: 'sample',
           name: 'Sample',
           component: () => import('@/views/Sample'),
         },
