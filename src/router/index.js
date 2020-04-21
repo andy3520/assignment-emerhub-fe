@@ -14,7 +14,7 @@ export default new Router({
 function configRoutes() {
   return [
     {
-      path: '/',
+      path: '/app',
       name: "Index",
       component: MainContainer,
       children: [
