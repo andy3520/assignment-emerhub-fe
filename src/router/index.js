@@ -8,13 +8,14 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   linkActiveClass: 'active',
+  base: '/app',
   routes: configRoutes()
 })
 
 function configRoutes() {
   return [
     {
-      path: '/app',
+      path: '/',
       name: "Index",
       component: MainContainer,
       children: [
