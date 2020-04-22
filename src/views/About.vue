@@ -8,13 +8,14 @@
         <p class="my-2">
           Getting
           <a
+            target="_blank"
             href="https://emerhub.com/insights/transparency-in-southeast-asia-a-corporate-challenge/"
             class="text-blue-600 underline"
           >reliable information</a> about private companies in Southeast Asia is difficult. Unlike most established markets, the publicly available records of private companies are either difficult to get or not available.
         </p>
 
         <p class="my-2">
-          <a href="https://emerhub.com/" class="text-blue-600 underline">Emerhub</a> works with foreign companies expanding to emerging Asian markets like Indonesia, Vietnam and the Philippines. Over the years we learned how difficult it was for our customers to conduct basic due diligence in various situations like:
+          <a target="_blank" href="https://emerhub.com/" class="text-blue-600 underline">Emerhub</a> works with foreign companies expanding to emerging Asian markets like Indonesia, Vietnam and the Philippines. Over the years we learned how difficult it was for our customers to conduct basic due diligence in various situations like:
         </p>
 
         <ul class="my-2 list-disc list-inside ml-4">
