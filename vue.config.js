@@ -1,5 +1,13 @@
 module.exports = {
   // publicPath: '/app',
+  productionSourceMap: false,
+  filenameHashing: false,
+  css: { extract: false },
+  configureWebpack: {
+    optimization: {
+      splitChunks: false
+    }
+  },
   devServer: {
     proxy: {
       '/cfs': {
