@@ -1,6 +1,6 @@
 import Storage from "./storage";
 const Cache = new Storage();
-const CART_CACHE_KEY = "CART";
+const CART_CACHE_KEY = "CART_EMERHUB";
 
 const getCart = () => {
   const saveCart = Cache.getItem(CART_CACHE_KEY);

@@ -10,7 +10,7 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
 
   // Include any special characters you're using in this regular expression
   defaultExtractor: content => content.match(/[\w-/.:]+(?<!:)/g) || [],
-  whitelistPatternsChildren: [/^tooltip/, /^v--modal/]
+  whitelistPatternsChildren: [/^tooltip/, /^v--modal/, /.{0,}(Stripe|stripe).{0,}/]
 })
 
 module.exports = {

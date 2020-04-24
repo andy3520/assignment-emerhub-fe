@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: '/wordpress54',
+  publicPath: '/wordpress54/dist',
   productionSourceMap: false,
   filenameHashing: false,
   css: { extract: false },

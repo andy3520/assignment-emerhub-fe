@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+  <div class="bg-white px-4 py-5 mb-5 sm:mb-0 border-b border-gray-200 sm:px-6">
     <h3 class="text-lg leading-6 font-medium text-gray-900">Find a company</h3>
     <div class="mt-2 text-sm leading-5 text-gray-500">
       <div class="mt-3">
