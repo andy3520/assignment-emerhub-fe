@@ -50,7 +50,7 @@ function configRoutes() {
           component: () => import('@/views/About'),
         },
         {
-          path: 'sample',
+          path: 'sample_report',
           name: 'Sample',
           component: () => import('@/views/Sample'),
         },
