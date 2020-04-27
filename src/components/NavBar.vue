@@ -11,7 +11,7 @@
           <div class="hidden sm:ml-6 sm:flex" id="desktopNav">
             <router-link to="/" class="desktop-nav-item" exact>Find a company</router-link>
             <router-link to="/about" class="ml-8 desktop-nav-item" exact>About Emerhub Registry</router-link>
-            <router-link to="/sample" class="ml-8 desktop-nav-item" exact>Sample reports</router-link>
+            <router-link to="/sample_report" class="ml-8 desktop-nav-item" exact>Sample reports</router-link>
           </div>
         </div>
         <!-- <div v-on:click="isOpen = !isOpen" class="hidden sm:ml-6 sm:flex sm:items-center">
@@ -96,7 +96,7 @@
       <div class="pt-2 pb-3">
         <router-link exact to="/" class="phone-nav-item">Find a company</router-link>
         <router-link exact to="/about" class="mt-1 phone-nav-item">About Emerhub Registry</router-link>
-        <router-link exact to="/sample" class="mt-1 phone-nav-item">Sample reports</router-link>
+        <router-link exact to="/sample_report" class="mt-1 phone-nav-item">Sample reports</router-link>
       </div>
       <!-- <div class="pt-4 pb-3 border-t border-gray-200">
         <div class="flex items-center px-4">
