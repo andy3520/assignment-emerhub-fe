@@ -55,15 +55,15 @@ const getCompanyByQuery = async (query, signal) => {
   return await getCachedData(query, `incCompanies?search=${query}&countryids=IDN`, options)
 }
 
-const getCompanyDetail = async (systemId) => {
-  const KEY = `DETAIL_${systemId}`
+const getCompanyDetail = async (companyId) => {
+  const KEY = `DETAIL_${companyId}`
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     crossDomain: true,
-    body: JSON.stringify({ systemId: systemId })
+    body: JSON.stringify({ companyId: companyId })
   }
 
   return await getCachedData(KEY, 'incCompaniesDeatail', options)

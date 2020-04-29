@@ -183,9 +183,9 @@ export default {
   },
   async created() {
     try {
-      const systemId = this.$route.params.systemId + "";
+      const id = this.$route.params.id + "";
       this.loading = true;
-      const [detail] = await getCompanyDetail(systemId);
+      const [detail] = await getCompanyDetail(id);
       this.company = detail;
     } catch (error) {
       console.log(error);

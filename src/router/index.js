@@ -25,7 +25,7 @@ function configRoutes() {
           component: () => import('@/views/Home')
         },
         {
-          path: ':country/:companyName/:systemId',
+          path: ':country/:companyName/:id',
           name: 'ComapnyDetail',
           component: () => import('@/views/PageSingleCompany')
         },

@@ -210,12 +210,12 @@ export default {
       return brandName.replace(/brand-/, "");
     },
     companyLink(company) {
-      const { countryCode, name, systemId } = company;
+      const { countryCode, name, id } = company;
       const country = this.countries.find(c => c.code === countryCode);
       const encodeName = name
         ? encodeURIComponent(name.split(" ").join("-"))
         : name;
-      return `${country.text}/${encodeName}/${systemId}`;
+      return `${country.text}/${encodeName}/${id}`;
     },
     changePage(page) {
       this.currentPage = page;
