@@ -1,61 +1,61 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from "vue";
+import Router from "vue-router";
 
-const MainContainer = () => import('@/container/MainContainer');
+const MainContainer = () => import("@/container/MainContainer");
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
-  linkActiveClass: 'active',
+  mode: "history",
+  linkActiveClass: "active",
   // base: 'wordpress54',
-  routes: configRoutes()
-})
+  routes: configRoutes(),
+});
 
 function configRoutes() {
   return [
     {
-      path: '/',
+      path: "/",
       name: "Index",
       component: MainContainer,
       children: [
         {
-          path: '',
-          name: 'Home',
-          component: () => import('@/views/Home')
+          path: "",
+          name: "Home",
+          component: () => import("@/views/Home"),
         },
         {
-          path: ':country/:companyName/:id',
-          name: 'ComapnyDetail',
-          component: () => import('@/views/PageSingleCompany')
+          path: ":country/:companyName/:id",
+          name: "ComapnyDetail",
+          component: () => import("@/views/PageSingleCompany"),
         },
         {
-          path: 'login',
-          name: 'Login',
-          component: () => import('@/views/PageLogin'),
+          path: "login",
+          name: "Login",
+          component: () => import("@/views/PageLogin"),
         },
         {
-          path: 'checkout',
-          name: 'Checkout',
-          component: () => import('@/views/PageCheckout'),
+          path: "vue_checkout",
+          name: "Checkout",
+          component: () => import("@/views/PageCheckout"),
         },
         {
-          path: 'thankyou',
-          name: 'Thankyou',
-          component: () => import('@/views/Thankyou'),
+          path: "thankyou",
+          name: "Thankyou",
+          component: () => import("@/views/Thankyou"),
         },
         {
-          path: 'about',
-          name: 'About',
-          component: () => import('@/views/About'),
+          path: "about",
+          name: "About",
+          component: () => import("@/views/About"),
         },
         {
-          path: 'sample_report',
-          name: 'Sample',
-          component: () => import('@/views/Sample'),
+          path: "sample_report",
+          name: "Sample",
+          component: () => import("@/views/Sample"),
         },
-        { path: "*", component: () => import('@/views/NotFound') }
-      ]
+        { path: "*", component: () => import("@/views/NotFound") },
+      ],
     },
-  ]
-} 
+  ];
+}

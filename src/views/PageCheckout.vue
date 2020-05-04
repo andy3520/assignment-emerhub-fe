@@ -1,11 +1,17 @@
 <template>
   <div
     class="flex justify-between flex-col-reverse xl:flex-row px-4 sm:px-0"
-    :class="{'opacity-50': paymentLoading }"
+    :class="{ 'opacity-50': paymentLoading }"
   >
-    <ValidationObserver tag="form" ref="billingForm" class="md:mr-4 flex-1 flex-col mt-10 xl:mt-0">
+    <ValidationObserver
+      tag="form"
+      ref="billingForm"
+      class="md:mr-4 flex-1 flex-col mt-10 xl:mt-0"
+    >
       <div>
-        <h2 class="text-xl leading-6 font-medium text-gray-900">Billing details</h2>
+        <h2 class="text-xl leading-6 font-medium text-gray-900"
+          >Billing details</h2
+        >
         <div class="mt-4 border-t border-gray-200">
           <div class="mt-6 grid grid-cols-1 row-gap-4 col-gap-4 sm:grid-cols-6">
             <div class="sm:col-span-3">
@@ -16,7 +22,8 @@
                 :value="user.name"
                 placeholder="Cardholder's name"
                 @input="updateName"
-              >Name on card</form-group>
+                >Name on card</form-group
+              >
             </div>
             <div class="sm:col-span-3">
               <form-group
@@ -26,7 +33,8 @@
                 type="email"
                 placeholder="Reciever's email"
                 rules="email"
-              >Email</form-group>
+                >Email</form-group
+              >
             </div>
             <div class="sm:col-span-3">
               <form-label>Country / Region</form-label>
@@ -48,7 +56,8 @@
                 rules="numeric"
                 :optional="true"
                 placeholder="Zip code"
-              >Zip code</form-group>
+                >Zip code</form-group
+              >
             </div>
             <!-- <div class="sm:col-span-6">
               <form-group
@@ -62,7 +71,9 @@
         </div>
         <div class="mt-8 border-t border-gray-200 pt-8">
           <div>
-            <h2 class="text-lg leading-6 font-medium text-gray-900 mb-4">Payment details</h2>
+            <h2 class="text-lg leading-6 font-medium text-gray-900 mb-4"
+              >Payment details</h2
+            >
           </div>
           <div>
             <div id="card-element">
@@ -70,7 +81,9 @@
             </div>
 
             <!-- Used to display form errors. -->
-            <div class="mt-1 text-red-500 text-sm" role="alert">{{ cardErrors }}</div>
+            <div class="mt-1 text-red-500 text-sm" role="alert">{{
+              cardErrors
+            }}</div>
           </div>
         </div>
       </div>
@@ -80,7 +93,9 @@
             <button
               @click="placeOrder"
               type="button"
-              :class="{ 'hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700': !paymentLoading }"
+              :class="{
+                'hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700': !paymentLoading,
+              }"
               class="w-full inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 transition duration-150 ease-in-out"
             >
               <span v-if="!paymentLoading">Place Order</span>
@@ -125,21 +140,31 @@
       <div class="bg-white shadow overflow-hidden sm:rounded-md">
         <h2 class="text-xl mb-2 px-4 sm:px-6 mt-4">Order details</h2>
         <ul class="border-t border-gray-200">
-          <li class="sm:min-w-xs text-center p-3" v-if="!localCart || !localCart.length">
+          <li
+            class="sm:min-w-xs text-center p-3"
+            v-if="!localCart || !localCart.length"
+          >
             Your cart is empty
             <router-link
               class="ml-1 font-bold uppercase text-blue-600 hover:text-blue-500 transition duration-150 ease-in-out cursor-pointer"
-              :to="{name: 'Home'}"
-            >Find a company</router-link>
+              :to="{ name: 'Home' }"
+              >Find a company</router-link
+            >
           </li>
-          <li v-for="comp in localCart" :key="comp.systemId" class="pt-4 last:pb-4">
+          <li
+            v-for="comp in localCart"
+            :key="comp.systemId"
+            class="pt-4 last:pb-4"
+          >
             <div
               class="block focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out"
               :class="{ 'opacity-50': !isInPayList(comp.systemId) }"
             >
               <div class="px-4 flex items-center sm:px-6">
                 <div class="w-full flex flex-col items-stretch justify-center">
-                  <div class="w-full text-sm leading-5 font-medium text-blue-600 truncate">
+                  <div
+                    class="w-full text-sm leading-5 font-medium text-blue-600 truncate"
+                  >
                     <label>
                       <input
                         :disabled="paymentLoading"
@@ -162,24 +187,35 @@
                         placement="top"
                         trigger="hover focus"
                       >
-                        <div class="flex flex-wrap md:flex-no-wrap items-center justify-between">
+                        <div
+                          class="flex flex-wrap md:flex-no-wrap items-center justify-between"
+                        >
                           <div class="w-full flex items-center">
                             <input
                               type="checkbox"
                               :id="opt.value"
                               :value="opt.value"
                               v-model="comp.options"
-                              :disabled="opt.standard || !isInPayList(comp.systemId) || paymentLoading"
+                              :disabled="
+                                opt.standard ||
+                                  !isInPayList(comp.systemId) ||
+                                  paymentLoading
+                              "
                             />
                             <span class="ml-2">{{ opt.text }}</span>
-                            <div class="ml-auto block md:hidden">${{ opt.price }}</div>
+                            <div class="ml-auto block md:hidden"
+                              >${{ opt.price }}</div
+                            >
                           </div>
-                          <div class="ml-4 md:block hidden">${{ opt.price }}</div>
+                          <div class="ml-4 md:block hidden"
+                            >${{ opt.price }}</div
+                          >
                         </div>
                         <template slot="popover">
                           <div
                             class="text-sm rounded bg-black opacity-75 text-white px-2 py-1"
-                          >{{ opt.info }}</div>
+                            >{{ opt.info }}</div
+                          >
                         </template>
                       </v-popover>
                     </label>
@@ -189,7 +225,9 @@
             </div>
           </li>
         </ul>
-        <div class="border-t border-gray-200 py-2 px-4 sm:px-6 flex items-center">
+        <div
+          class="border-t border-gray-200 py-2 px-4 sm:px-6 flex items-center"
+        >
           <div class="text-xl text-right flex-1">
             Total sum
             <span class="font-medium">${{ totalOrder }}</span>
@@ -197,10 +235,18 @@
         </div>
       </div>
     </div>
-    <modal name="error" width="80%" height="auto" :maxWidth="400" :adaptive="true">
+    <modal
+      name="error"
+      width="80%"
+      height="auto"
+      :maxWidth="400"
+      :adaptive="true"
+    >
       <div class="bg-white px-4 pt-5 pb-4 overflow-hidden sm:p-6">
         <div>
-          <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+          <div
+            class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100"
+          >
             <svg
               class="h-6 w-6 text-red-600"
               stroke="currentColor"
@@ -216,9 +262,13 @@
             </svg>
           </div>
           <div class="mt-3 text-center sm:mt-5">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">{{ error.title }}</h3>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">{{
+              error.title
+            }}</h3>
             <div class="mt-2">
-              <p class="text-base leading-5 text-gray-500">{{ error.message }}</p>
+              <p class="text-base leading-5 text-gray-500">{{
+                error.message
+              }}</p>
             </div>
           </div>
         </div>
@@ -228,7 +278,8 @@
               @click="hideError"
               type="button"
               class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-            >Go back to checkout</button>
+              >Go back to checkout</button
+            >
           </span>
         </div>
       </div>
@@ -244,10 +295,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import { createIntent, postDataToWordpress } from "@/services/checkout";
 
 const PRICE_MAP = Object.fromEntries(
-  REPORT_TYPES.map(option => [option.value, option.price])
+  REPORT_TYPES.map((option) => [option.value, option.price])
 );
 
-const STRIPE_PUBLIC_KEY = "pk_live_N1FLSph70EoASSFvPCn3vafx";
+const STRIPE_PUBLIC_KEY = "pk_test_VWr2CtOHNhSt6Otvd5ahu2v9";
 const STRIPE_CARD_ID = "#card-element";
 const STRIPE_CARD_STYLE = {
   base: {
@@ -258,13 +309,13 @@ const STRIPE_CARD_STYLE = {
     fontSize: "14px",
     "::placeholder": {
       color: "#9fa6b2",
-      opacity: 1
-    }
+      opacity: 1,
+    },
   },
   invalid: {
     color: "#f05252",
-    iconColor: "#f05252"
-  }
+    iconColor: "#f05252",
+  },
 };
 
 export default {
@@ -274,7 +325,7 @@ export default {
     return {
       countryDictionary: [
         { text: "Select a country/region", value: "" },
-        ...COUNTRY_DICTIONARY
+        ...COUNTRY_DICTIONARY,
       ],
       localCart: [],
       payList: [],
@@ -284,17 +335,17 @@ export default {
         // address: "",
         email: "",
         country: "",
-        zip: ""
+        zip: "",
       },
       error: {
         title: "",
-        message: ""
+        message: "",
       },
       tripe: null,
       card: null,
       cardErrors: null,
       paymentLoading: false,
-      priceMap: PRICE_MAP
+      priceMap: PRICE_MAP,
     };
   },
   computed: {
@@ -302,26 +353,26 @@ export default {
       if (!this.payList || !this.payList.length) return 0;
       let total = 0;
       this.localCart
-        .filter(comp => this.payList.includes(comp.systemId))
-        .forEach(comp => {
-          comp.options.forEach(opt => {
+        .filter((comp) => this.payList.includes(comp.systemId))
+        .forEach((comp) => {
+          comp.options.forEach((opt) => {
             total += this.priceMap[opt];
           });
         });
 
       return total;
-    }
+    },
   },
   filters: {
     uppercase: function(value) {
       if (!value) return value;
       return value.toUpperCase();
-    }
+    },
   },
   async mounted() {
     await this.createStripeCard();
     this.localCart = getCart();
-    this.payList = this.localCart.map(c => c.systemId);
+    this.payList = this.localCart.map((c) => c.systemId);
   },
   methods: {
     updateName(val) {
@@ -340,7 +391,7 @@ export default {
         .create("card", { hidePostalCode: true, style: STRIPE_CARD_STYLE });
       this.card.mount(STRIPE_CARD_ID);
 
-      this.card.addEventListener("change", event => {
+      this.card.addEventListener("change", (event) => {
         if (event.error) {
           this.cardErrors = event.error.message;
         } else {
@@ -377,13 +428,13 @@ export default {
         this.paymentLoading = false;
         return;
       }
-      const order = this.payList.map(systemId => {
-        return this.localCart.find(c => c.systemId === systemId);
+      const order = this.payList.map((systemId) => {
+        return this.localCart.find((c) => c.systemId === systemId);
       });
 
       const mapOrder = order.map(({ systemId, options }) => {
         const mapOpts = options.map(
-          opt => `${systemId}_${opt === "standard" ? "SR" : "ER"}`
+          (opt) => `${systemId}_${opt === "standard" ? "SR" : "ER"}`
         );
         return mapOpts.join();
       });
@@ -402,9 +453,9 @@ export default {
           email: this.user.email,
           address: {
             country: this.user.country,
-            postal_code: this.user.zip
-          }
-        }
+            postal_code: this.user.zip,
+          },
+        },
       });
 
       // Payment detail invalid
@@ -426,8 +477,8 @@ export default {
           {
             payment_method: {
               card: this.card,
-              billing_details
-            }
+              billing_details,
+            },
           }
         );
         if (!confirmCardPayment || confirmCardPayment.error) {
@@ -454,7 +505,7 @@ export default {
         }
         // Post data to wordpress end
 
-        this.localCart = this.localCart.filter(c => {
+        this.localCart = this.localCart.filter((c) => {
           return !this.payList.includes(c.systemId);
         });
         this.updateCart();
@@ -472,7 +523,7 @@ export default {
       const wpOrder = order.map(({ id, systemId, name, options }) => {
         let amount = 0;
         const stringOptions = options
-          .map(opt => {
+          .map((opt) => {
             amount += this.priceMap[opt];
             return opt === "standard" ? "SR" : "ER";
           })
@@ -484,14 +535,14 @@ export default {
           systemId,
           quantity: 1,
           options: stringOptions,
-          amount: amount + ""
+          amount: amount + "",
         };
       });
 
       const { country, email, name, zip } = user;
 
       const { text: countryName } = this.countryDictionary.find(
-        item => item.value === country
+        (item) => item.value === country
       );
 
       const wpUser = {
@@ -499,12 +550,12 @@ export default {
         email,
         country: countryName,
         address: "",
-        zipcode: +zip
+        zipcode: +zip,
       };
 
       return await postDataToWordpress(intentId, wpUser, wpOrder);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
