@@ -5,10 +5,11 @@ const MainContainer = () => import("@/container/MainContainer");
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   linkActiveClass: "active",
   // base: 'wordpress54',
+
   routes: configRoutes(),
 });
 
@@ -59,3 +60,13 @@ function configRoutes() {
     },
   ];
 }
+
+router.beforeEach((to, from, next) => {
+/* must call `next` */
+  if (to.name === 'Thankyou' && from.name !== 'Checkout') {
+    next({ name: "Home"})
+  } else next()
+})
+
+
+export default router
