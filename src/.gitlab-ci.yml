@@ -1,0 +1,31 @@
+stages:
+  - build
+  - deploy
+
+build prod:
+  image: node:10.15.0-stretch
+  stage: build
+  only:
+    - master
+  script:
+    # Install dependencies
+    - npm install
+    # Build App
+    - npm run build
+  artifacts:
+    paths:
+      # Build folder
+      - dist/
+    expire_in: 1 hour
+
+deploy prod:
+  image: ubuntu:18.04
+  stage: deploy
+  only:
+    - master
+  script:
+    - apt-get update -qq && apt-get install -y -qq sshpass
+    - sshpass -V
+    - export SSHPASS=$USER_PASS
+    - sshpass -e ssh root@209.97.168.207 'rm -rf /var/www/wpm_html/dist'
+    - sshpass -e scp-r dist root@209.97.168.207:/var/www/wp_html/dist
